@@ -30,10 +30,20 @@ jobs:
         with:
           node-version: 20
           cache: pnpm
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
       - name: Build
+        env:
+          VITE_BASE_PATH: /neural-lab/
         run: pnpm build
+      - name: Verify production entrypoint
+        shell: bash
+        run: |
+          grep -q 'src="/neural-lab/assets/index-' dist/index.html
+          ! grep -q 'src="/src/main.tsx"' dist/index.html
+          test -f dist/model/mnist-mlp.json
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
