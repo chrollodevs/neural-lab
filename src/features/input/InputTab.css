@@ -1,0 +1,115 @@
+.input-tab {
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.input-section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-width: 480px;
+}
+
+.drawing-section {
+  max-width: 320px;
+}
+
+.drawing-canvas {
+  width: 280px;
+  height: 280px;
+  max-width: 100%;
+  background: #07090c;
+  border: 1px solid var(--border);
+  touch-action: none;
+  cursor: crosshair;
+}
+
+.input-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.text-button,
+.sample-button {
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-primary);
+  font: inherit;
+  cursor: pointer;
+  transition: border-color 180ms var(--ease-out), color 180ms var(--ease-out), transform 120ms var(--ease-out);
+}
+
+.text-button {
+  padding: 6px 10px;
+}
+
+.text-button:hover,
+.sample-button:hover,
+.sample-button.selected {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.text-button:active,
+.sample-button:active {
+  transform: scale(0.97);
+}
+
+.sample-list {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.sample-button {
+  width: 42px;
+  min-height: 54px;
+  padding: 4px;
+  display: grid;
+  justify-items: center;
+  gap: 2px;
+}
+
+.sample-glyph {
+  display: grid;
+  grid-template-columns: repeat(28, 1px);
+  width: 28px;
+  height: 28px;
+  background: #07090c;
+}
+
+.sample-glyph i {
+  width: 1px;
+  height: 1px;
+  background: var(--text-primary);
+}
+
+.input-confirmation {
+  color: var(--accent);
+  font-size: 11px;
+}
+
+.input-message {
+  color: var(--text-secondary);
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.section-label {
+  margin: 0;
+  color: var(--text-primary);
+  font-size: 16px;
+  font-weight: 500;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .text-button,
+  .sample-button {
+    transition: none;
+  }
+}

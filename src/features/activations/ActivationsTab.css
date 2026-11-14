@@ -1,0 +1,94 @@
+.activations-tab {
+  padding: 16px 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex: 1;
+}
+
+.empty-message {
+  color: var(--text-secondary);
+  padding: 40px 0;
+  text-align: center;
+}
+
+.activation-section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.activation-grid {
+  display: grid;
+  grid-template-columns: repeat(28, 1fr);
+  gap: 0;
+  max-width: 196px;
+  line-height: 1;
+  font-size: 6px;
+}
+
+.activation-cell {
+  text-align: center;
+  color: var(--text-primary);
+}
+
+.activation-values {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.activation-value {
+  font-size: 10px;
+  color: var(--text-secondary);
+  padding: 1px 3px;
+  background: var(--bg-surface);
+  border-radius: 2px;
+}
+
+.probability-list {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  max-width: 360px;
+}
+
+.prob-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+}
+
+.prob-row.predicted {
+  color: var(--accent);
+}
+
+.prob-digit {
+  width: 12px;
+  text-align: right;
+}
+
+.prob-bar-bg {
+  flex: 1;
+  height: 4px;
+  background: var(--bg-surface);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.prob-bar {
+  height: 100%;
+  background: var(--accent-muted);
+  border-radius: 2px;
+}
+
+.prob-row.predicted .prob-bar {
+  background: var(--accent);
+}
+
+.prob-value {
+  width: 48px;
+  text-align: right;
+}

@@ -1,0 +1,14 @@
+.network-canvas-container {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+  overflow: visible;
+  cursor: crosshair;
+}
+
+.network-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+}

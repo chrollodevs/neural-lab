@@ -1,0 +1,82 @@
+/*
+ * Design tokens — Scientific Instrument direction (D6)
+ *
+ * Palette: graphite field, paper-white network, restrained grayscale activity.
+ * 
+ * Typography: Inter for UI, IBM Plex Mono for technical readouts.
+ * Easing: from animate skill — strong custom curves, never built-in ease-in.
+ */
+
+:root {
+  --bg-deep: #050505;
+  --bg: #080808;
+  --bg-elevated: #101010;
+  --bg-surface: #171717;
+  --bg-hover: #202020;
+
+  /* ── Text ── */
+  --text-primary: #f2f2ef;
+  --text-secondary: #a7a7a2;
+  --text-tertiary: #6f6f6b;
+  --text-inverse: #080808;
+
+  --accent: #d9d9d4;
+  --accent-bright: #ffffff;
+  --accent-emphasis: #a8a8a3;
+  --accent-muted: rgba(255, 255, 255, 0.1);
+  --accent-glow: rgba(255, 255, 255, 0.2);
+
+  /* ── Weight encoding (D24) ── positive vs negative weight sign */
+  --weight-positive: #d9d9d4;
+  --weight-negative: #777773;
+
+  /* ── Semantic ── */
+  --danger: #d2d2cd;
+  --success: #b7b7b2;
+
+  /* ── Layer identity ── subtle visual distinction per layer type */
+  --layer-input: #b6b6b1;
+  --layer-hidden-1: #e0e0da;
+  --layer-hidden-2: #c4c4be;
+  --layer-output: #f2f2ef;
+
+  /* ── Borders ── */
+  --border: rgba(242, 242, 239, 0.14);
+  --border-strong: rgba(242, 242, 239, 0.28);
+  --border-focus: var(--text-primary);
+
+  /* ── Typography ── */
+  --font-display: 'Segoe UI Variable Display', 'Segoe UI Variable', 'Segoe UI', sans-serif;
+  --font-ui: 'Segoe UI Variable Text', 'Segoe UI Variable', 'Segoe UI', sans-serif;
+  --font-mono: 'IBM Plex Mono', 'Menlo', 'Consolas', monospace;
+
+  --text-xs: 10px;
+  --text-sm: 11px;
+  --text-base: 13px;
+  --text-md: 14px;
+  --text-lg: 16px;
+
+  /* ── Spacing ── 4px base */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 20px;
+  --sp-6: 24px;
+  --sp-8: 32px;
+  --sp-10: 40px;
+
+  /* ── Radii ── */
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+
+  /* ── Easing (from animate skill — strong custom curves) ── */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+
+  /* ── Shadows ── */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.6);
+}

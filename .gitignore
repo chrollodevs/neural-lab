@@ -1,0 +1,47 @@
+# Dependencies / build (when the app exists)
+node_modules/
+dist/
+dist-ssr/
+*.local
+coverage/
+
+# Env and secrets
+.env
+.env.*
+!.env.example
+
+# Python training (when it exists)
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.ipynb_checkpoints/
+
+# Datasets — do not commit MNIST blobs
+model/training/data/
+model/training/checkpoints/
+*.idx
+*.idx.gz
+
+# Logs and OS
+*.log
+*.tsbuildinfo
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+*.swp
+
+# Private agent and editor context
+.agents/
+.github/skills/
+.cursor/
+AGENTS.md
+skills-lock.json
+
+# Internal product and research notes
+docs/
+research/
+src/README.md
