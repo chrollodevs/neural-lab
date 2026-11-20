@@ -60,14 +60,14 @@ export function computeLayout(
   }
 
   const rand = seededRandom(31415);
-  const pad = { top: 52, bottom: 44, left: 56, right: 48 };
+  const pad = { top: 48, bottom: 36, left: 40, right: 72 };
   const usableW = Math.max(canvasWidth - pad.left - pad.right, 1);
   const usableH = Math.max(canvasHeight - pad.top - pad.bottom, 1);
   const layerCount = layers.length;
 
   // Horizontal centers — input layer needs more width for the 28×28 grid.
   // When a single layer is supplied, keep the layout centered and avoid dividing by zero.
-  const inputShare = 0.28;
+  const inputShare = 0.32;
   const remainShare = layerCount > 1 ? (1 - inputShare) / (layerCount - 1) : 0;
   const layerXFractions = layers.map((_, i) => {
     if (layerCount === 1) return 0.5;
@@ -89,9 +89,9 @@ export function computeLayout(
     if (li === 0 && layer.units === 784) {
       // ── Input: 28×28 pixel grid ──
       const gridN = 28;
-      const maxGridSize = Math.min(usableH * 0.82, usableW * inputShare * 0.85);
+      const maxGridSize = Math.min(usableH * 0.88, usableW * inputShare * 0.92);
       cellSize = Math.floor(maxGridSize / gridN);
-      const gap = Math.max(1, Math.floor(cellSize * 0.12));
+      const gap = Math.max(0, Math.floor(cellSize * 0.06));
       const stride = cellSize + gap;
       const gridW = gridN * stride - gap;
       const gridH = gridN * stride - gap;
@@ -109,7 +109,7 @@ export function computeLayout(
       }
     } else if (layer.units <= 12) {
       // ── Output layer: wide spacing, centered ──
-      const spacing = Math.min(usableH / (layer.units + 3), 44);
+      const spacing = Math.min(usableH / (layer.units + 2), 48);
       const colH = spacing * (layer.units - 1);
       const startY = pad.top + (usableH - colH) / 2;
 
@@ -123,13 +123,13 @@ export function computeLayout(
       }
     } else {
       // ── Hidden layers: organic curved column ──
-      const maxSpacing = layer.units > 80 ? 5.2 : 7.5;
-      const spacing = Math.min(usableH / (layer.units + 2), maxSpacing);
+      const maxSpacing = layer.units > 80 ? 5.6 : 8.2;
+      const spacing = Math.min(usableH / (layer.units + 1.4), maxSpacing);
       const colH = spacing * (layer.units - 1);
       const startY = pad.top + (usableH - colH) / 2;
 
       // Gentle sine curve for organic feel — amplitude scales with layer size
-      const curveAmp = Math.min(12, usableW * 0.008);
+      const curveAmp = Math.min(18, usableW * 0.014);
 
       for (let ni = 0; ni < layer.units; ni++) {
         const t = layer.units > 1 ? ni / (layer.units - 1) : 0.5;

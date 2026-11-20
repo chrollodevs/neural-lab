@@ -4,6 +4,10 @@
   overflow: auto;
   background: var(--bg-deep);
   color: var(--text-primary);
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 28px 28px;
 }
 
 .about-page-header,
@@ -12,8 +16,10 @@
   align-items: center;
   justify-content: space-between;
   gap: 24px;
-  padding: 22px clamp(24px, 6vw, 96px);
+  padding: 0 24px;
+  height: 44px;
   border-bottom: 1px solid var(--border);
+  background: var(--bg);
 }
 
 .about-wordmark {
@@ -23,16 +29,17 @@
 }
 
 .about-wordmark strong {
-  font-family: var(--font-display);
-  font-size: 19px;
-  letter-spacing: -0.035em;
+  font-family: var(--font-ui);
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 .about-wordmark span,
 .about-page-footer {
   color: var(--text-tertiary);
   font-size: 9px;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
 }
 
 .about-back {
@@ -44,7 +51,10 @@
   background: transparent;
   color: var(--text-secondary);
   font: inherit;
-  font-size: 11px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   cursor: pointer;
   transition: color 160ms var(--ease-out);
 }
@@ -55,50 +65,50 @@
 }
 
 .about-page-body {
-  width: min(1120px, calc(100% - 48px));
+  width: min(1040px, calc(100% - 48px));
   margin: 0 auto;
-  padding: clamp(64px, 11vh, 132px) 0 96px;
+  padding: 40px 0 72px;
 }
 
 .about-hero {
-  max-width: 700px;
-  padding-bottom: clamp(56px, 9vh, 108px);
+  max-width: 640px;
+  padding-bottom: 40px;
 }
 
 .about-eyebrow,
 .about-label {
-  color: var(--text-tertiary);
+  color: var(--accent);
   font-size: 9px;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
 }
 
 .about-hero h1 {
-  max-width: 700px;
-  margin: 18px 0 24px;
-  font-family: var(--font-display);
-  font-size: clamp(42px, 7vw, 88px);
-  line-height: 0.94;
-  letter-spacing: -0.06em;
+  max-width: 640px;
+  margin: 12px 0 16px;
+  font-family: var(--font-ui);
+  font-size: clamp(22px, 3.2vw, 32px);
+  line-height: 1.15;
+  letter-spacing: -0.03em;
   font-weight: 500;
 }
 
 .about-hero p {
-  max-width: 600px;
+  max-width: 560px;
   color: var(--text-secondary);
-  font-size: 15px;
-  line-height: 1.75;
+  font-size: 13px;
+  line-height: 1.65;
 }
 
 .about-page-grid {
   display: grid;
   grid-template-columns: minmax(0, 1.15fr) minmax(240px, 0.85fr);
-  gap: 0 72px;
-  border-top: 1px solid var(--border-strong);
+  gap: 0 48px;
+  border-top: 1px solid var(--border);
 }
 
 .about-block {
   min-width: 0;
-  padding: 22px 0 34px;
+  padding: 20px 0 28px;
   border-bottom: 1px solid var(--border);
 }
 
@@ -106,7 +116,7 @@
 .about-block dd {
   color: var(--text-secondary);
   font-size: 13px;
-  line-height: 1.7;
+  line-height: 1.6;
 }
 
 .about-block strong {
@@ -117,14 +127,14 @@
 }
 
 .about-block dl {
-  margin: 22px 0 0;
+  margin: 16px 0 0;
 }
 
 .about-block dl div {
   display: grid;
   grid-template-columns: 118px minmax(0, 1fr);
-  gap: 20px;
-  padding: 11px 0;
+  gap: 16px;
+  padding: 9px 0;
   border-top: 1px solid var(--border);
 }
 
@@ -142,15 +152,15 @@
 .about-features {
   display: flex;
   flex-direction: column;
-  gap: 13px;
-  margin: 22px 0 0;
+  gap: 10px;
+  margin: 16px 0 0;
   padding: 0;
   list-style: none;
 }
 
 .about-team li {
   color: var(--text-primary);
-  font-size: 15px;
+  font-size: 13px;
 }
 
 .about-features li {
@@ -163,7 +173,7 @@
   content: '—';
   display: inline-block;
   width: 22px;
-  color: var(--text-tertiary);
+  color: var(--accent);
 }
 
 .about-purpose {
@@ -182,7 +192,7 @@
 @media (max-width: 720px) {
   .about-page-header,
   .about-page-footer {
-    padding: 18px 24px;
+    padding: 0 16px;
   }
 
   .about-wordmark {
@@ -191,16 +201,16 @@
 
   .about-wordmark span {
     display: block;
-    margin-top: 5px;
+    margin-top: 4px;
   }
 
   .about-page-body {
-    width: calc(100% - 48px);
-    padding-top: 64px;
+    width: calc(100% - 32px);
+    padding-top: 28px;
   }
 
   .about-hero h1 {
-    font-size: clamp(42px, 14vw, 64px);
+    font-size: 22px;
   }
 
   .about-page-grid {
@@ -213,12 +223,14 @@
 
   .about-block dt {
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 4px;
   }
 
   .about-page-footer {
     align-items: flex-start;
     flex-direction: column;
     gap: 8px;
+    height: auto;
+    padding: 12px 16px;
   }
 }

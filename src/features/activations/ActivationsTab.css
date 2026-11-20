@@ -1,56 +1,62 @@
 .activations-tab {
-  padding: 16px 20px;
+  padding: 14px 16px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 18px;
   flex: 1;
 }
 
 .empty-message {
   color: var(--text-secondary);
-  padding: 40px 0;
-  text-align: center;
+  padding: 32px 0;
+  text-align: left;
+  font-size: 11px;
 }
 
 .activation-section {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
 }
 
 .activation-grid {
   display: grid;
   grid-template-columns: repeat(28, 1fr);
-  gap: 0;
+  gap: 1px;
   max-width: 196px;
   line-height: 1;
   font-size: 6px;
+  background: var(--bg-deep);
+  border: 1px solid var(--border);
+  padding: 4px;
 }
 
 .activation-cell {
   text-align: center;
-  color: var(--text-primary);
+  color: var(--accent-bright);
 }
 
 .activation-values {
   display: flex;
   flex-wrap: wrap;
-  gap: 4px;
+  gap: 3px;
 }
 
 .activation-value {
-  font-size: 10px;
+  font-size: 9px;
   color: var(--text-secondary);
-  padding: 1px 3px;
-  background: var(--bg-surface);
-  border-radius: 2px;
+  padding: 2px 4px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
 }
 
 .probability-list {
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 4px;
   max-width: 360px;
 }
 
@@ -62,7 +68,7 @@
 }
 
 .prob-row.predicted {
-  color: var(--accent);
+  color: var(--accent-amber);
 }
 
 .prob-digit {
@@ -72,23 +78,22 @@
 
 .prob-bar-bg {
   flex: 1;
-  height: 4px;
+  height: 3px;
   background: var(--bg-surface);
-  border-radius: 2px;
   overflow: hidden;
 }
 
 .prob-bar {
   height: 100%;
   background: var(--accent-muted);
-  border-radius: 2px;
 }
 
 .prob-row.predicted .prob-bar {
-  background: var(--accent);
+  background: var(--accent-amber);
 }
 
 .prob-value {
   width: 48px;
   text-align: right;
+  font-variant-numeric: tabular-nums;
 }

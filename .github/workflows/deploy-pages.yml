@@ -43,6 +43,7 @@ jobs:
         run: |
           grep -q 'src="/neural-lab/assets/index-' dist/index.html
           ! grep -q 'src="/src/main.tsx"' dist/index.html
+          test -f dist/.nojekyll
           test -f dist/model/mnist-mlp.json
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

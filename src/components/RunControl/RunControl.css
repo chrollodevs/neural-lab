@@ -7,30 +7,34 @@
 }
 
 .run-button {
-  background: var(--text-primary);
-  color: var(--bg);
+  background: transparent;
+  color: var(--accent-bright);
   border: 1px solid var(--accent);
   border-radius: 0;
-  font-family: var(--font-ui);
-  font-size: 12px;
+  font-family: var(--font-mono);
+  font-size: 10px;
   font-weight: 500;
-  padding: 6px 16px;
+  padding: 7px 16px;
   cursor: pointer;
-  letter-spacing: 0.03em;
-  transition: background-color 160ms var(--ease-out), color 160ms var(--ease-out), transform 120ms var(--ease-out);
-  min-height: 32px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  transition:
+    background-color 160ms var(--ease-out),
+    color 160ms var(--ease-out),
+    transform 120ms var(--ease-out);
+  min-height: 28px;
 }
 
 .run-button:hover:not(:disabled) {
-  background: var(--accent);
-  color: var(--bg);
+  background: var(--accent-muted);
+  color: var(--text-primary);
 }
 
 .run-button:disabled {
-  opacity: 0.35;
+  opacity: 0.4;
   cursor: not-allowed;
-  color: var(--text-secondary);
-  border-color: var(--text-tertiary);
+  color: var(--text-tertiary);
+  border-color: var(--border-strong);
   background: transparent;
 }
 
@@ -45,15 +49,20 @@
 
 .run-hint {
   color: var(--text-tertiary);
-  font-size: 10px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.06em;
 }
 
 .run-result {
-  color: var(--accent);
-  font-size: 11px;
+  color: var(--accent-amber);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
 }
 
 .run-error {
   color: var(--danger);
-  font-size: 11px;
+  font-family: var(--font-mono);
+  font-size: 10px;
 }

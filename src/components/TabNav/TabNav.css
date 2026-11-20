@@ -1,39 +1,53 @@
 .tab-nav {
   display: flex;
-  justify-content: center;
-  gap: 8px;
-  padding: 0 20px 12px;
+  justify-content: flex-start;
+  gap: 0;
+  padding: 0 12px;
   border-bottom: 1px solid var(--border);
   background: var(--bg);
   flex-shrink: 0;
+  counter-reset: lab-tab;
 }
 
 .tab-item {
   background: none;
   border: none;
   border-bottom: 1px solid transparent;
-  color: var(--text-secondary);
-  font-family: var(--font-ui);
-  font-size: 11px;
+  color: var(--text-tertiary);
+  font-family: var(--font-mono);
+  font-size: 10px;
   font-weight: 400;
-  letter-spacing: 0.01em;
-  padding: 7px 12px 6px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 7px 12px 7px;
   cursor: pointer;
   position: relative;
-  transition: color 160ms var(--ease-out), border-color 160ms var(--ease-out);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: color 140ms var(--ease-out), border-color 140ms var(--ease-out);
+}
+
+.tab-item::before {
+  counter-increment: lab-tab;
+  content: counter(lab-tab, decimal-leading-zero);
+  color: var(--text-tertiary);
+  font-size: 8px;
+  letter-spacing: 0.08em;
+  opacity: 0.7;
 }
 
 .tab-item::after {
   content: '';
   position: absolute;
-  left: 12px;
-  right: 12px;
+  left: 14px;
+  right: 14px;
   bottom: -1px;
   height: 1px;
   background: var(--accent);
   transform: scaleX(0);
   transform-origin: left center;
-  transition: transform 180ms var(--ease-out);
+  transition: transform 160ms var(--ease-out);
 }
 
 .tab-item:hover {
@@ -42,7 +56,10 @@
 
 .tab-item.active {
   color: var(--text-primary);
-  border-bottom-color: transparent;
+}
+
+.tab-item.active::before {
+  color: var(--accent);
 }
 
 .tab-item.active::after {
@@ -56,5 +73,9 @@
 @media (hover: hover) and (pointer: fine) {
   .tab-item:hover::after {
     transform: scaleX(0.35);
+  }
+
+  .tab-item.active:hover::after {
+    transform: scaleX(1);
   }
 }

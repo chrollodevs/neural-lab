@@ -1,22 +1,23 @@
 .overview-tab {
-  padding: 20px 24px;
+  padding: 14px 16px 18px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 0;
   overflow-y: auto;
-  max-width: 480px;
 }
 
 .overview-section {
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 4px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
 }
 
 .section-label {
   font-size: 9px;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   color: var(--text-tertiary);
   font-weight: 500;
   margin-bottom: 2px;
@@ -25,12 +26,13 @@
 .overview-value {
   font-size: 13px;
   color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
 }
 
 .overview-detail {
   font-size: 11px;
   color: var(--text-secondary);
-  line-height: 1.6;
+  line-height: 1.55;
 }
 
 .text-muted {
@@ -42,7 +44,7 @@
 }
 
 .text-accent {
-  color: var(--accent);
+  color: var(--accent-bright);
 }
 
 .text-danger {

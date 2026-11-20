@@ -5,25 +5,24 @@
   width: 100%;
   overflow: hidden;
   background: var(--bg-deep);
-  animation: app-reveal 700ms var(--ease-out) both;
 }
 
 .app-main {
   flex: 1;
   min-height: 0;
   overflow: auto;
-  background: var(--bg-deep);
+  background: transparent;
 }
 
 .main-canvas {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(280px, 320px);
+  grid-template-columns: minmax(0, 1fr) minmax(278px, 320px);
   grid-template-rows: auto minmax(0, 1fr) auto;
   height: 100%;
   width: 100%;
-  padding: clamp(22px, 4vh, 48px) clamp(24px, 5vw, 80px) 22px;
-  column-gap: clamp(24px, 3vw, 48px);
-  row-gap: 14px;
+  padding: 12px 16px 10px;
+  column-gap: 0;
+  row-gap: 8px;
   overflow: auto;
 }
 
@@ -33,25 +32,26 @@
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  gap: 20px;
-  z-index: 2;
+  gap: 16px;
+  padding: 0 6px 7px;
+  border-bottom: 1px solid var(--border);
 }
 
 .canvas-heading h1 {
-  margin-top: 7px;
+  margin-top: 4px;
   color: var(--text-primary);
-  font-family: var(--font-display);
-  font-size: clamp(24px, 2.7vw, 38px);
-  line-height: 0.98;
-  letter-spacing: -0.045em;
-  font-weight: 600;
-  max-width: 520px;
+  font-family: var(--font-ui);
+  font-size: 14px;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  font-weight: 500;
+  max-width: none;
 }
 
 .canvas-kicker {
-  color: var(--text-secondary);
+  color: var(--accent);
   font-size: 9px;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.16em;
 }
 
 .canvas-meta {
@@ -60,43 +60,49 @@
   gap: 8px;
   color: var(--text-tertiary);
   font-size: 9px;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.14em;
 }
 
 .meta-pulse {
-  width: 5px;
-  height: 5px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
-  background: var(--text-secondary);
-  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.08);
+  background: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-muted);
 }
 
 .canvas-stage {
   grid-column: 1;
   grid-row: 2;
   position: relative;
-  flex: 1;
   min-height: 0;
-  min-height: clamp(520px, 70vh, 720px);
-  overflow: visible;
-  background: var(--bg-deep);
+  min-height: clamp(480px, 64vh, 720px);
+  overflow: hidden;
+  margin: 0 6px;
+  border: 1px solid var(--border-strong);
+  background:
+    linear-gradient(180deg, rgba(11, 17, 20, 0.34), rgba(5, 7, 9, 0.2)),
+    var(--bg-deep);
 }
 
 .canvas-note {
   position: absolute;
-  left: 0;
-  top: 8px;
+  left: 10px;
+  bottom: 10px;
   display: flex;
   align-items: center;
   gap: 8px;
-  color: var(--text-secondary);
+  color: var(--text-tertiary);
   font-size: 9px;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.12em;
   pointer-events: none;
+  padding: 4px 8px;
+  background: rgba(5, 7, 9, 0.86);
+  border: 1px solid var(--border);
 }
 
 .note-arrow {
-  color: var(--text-secondary);
+  color: var(--accent);
   opacity: 0.7;
 }
 
@@ -106,17 +112,17 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 20px;
+  gap: 16px;
   border-top: 1px solid var(--border);
-  padding-top: 12px;
+  padding: 8px 6px 0;
   z-index: 3;
 }
 
 .stage-caption {
-  color: var(--text-secondary);
-  font-family: var(--font-ui);
-  font-size: 12px;
-  letter-spacing: 0.01em;
+  color: var(--text-tertiary);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.04em;
 }
 
 .environment-panel {
@@ -124,12 +130,10 @@
   grid-row: 1 / 4;
   position: relative;
   z-index: 4;
-  width: auto;
-  height: auto;
   min-height: 0;
   overflow: auto;
-  border-left: 1px solid var(--border-strong);
-  background: rgba(8, 8, 8, 0.94);
+  border-left: 1px solid var(--border);
+  background: rgba(7, 10, 14, 0.92);
 }
 
 .environment-network {
@@ -151,50 +155,43 @@
 }
 
 .is-network .canvas-stage {
-  min-height: clamp(680px, 82vh, 860px);
-}
-
-@keyframes app-reveal {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  min-height: clamp(560px, 78vh, 860px);
 }
 
 @media (max-width: 720px) {
   .main-canvas {
     display: flex;
     flex-direction: column;
-    padding: 28px 20px 16px;
-    gap: 18px;
+    padding: 12px 14px 12px;
+    gap: 12px;
     overflow: auto;
   }
 
-  .canvas-heading h1 { font-size: 28px; }
+  .canvas-heading h1 { font-size: 14px; }
   .canvas-meta { display: none; }
   .canvas-note { font-size: 8px; gap: 5px; }
   .canvas-note span:nth-of-type(even) { display: none; }
-  .stage-footer { align-items: flex-start; }
-  .stage-caption { font-size: 13px; max-width: 190px; }
+  .stage-footer { align-items: flex-start; flex-wrap: wrap; }
+  .stage-caption { font-size: 10px; max-width: 220px; }
   .environment-panel {
     position: relative;
-    top: auto;
-    right: auto;
-    bottom: auto;
     width: auto;
     height: auto;
     max-height: none;
     margin: 0;
     order: 3;
     border-left: 0;
-    border-top: 1px solid var(--border-strong);
+    border-top: 1px solid var(--border);
   }
   .has-panel .canvas-stage {
     padding-right: 0;
-    min-height: 360px;
+    min-height: 320px;
     width: 100%;
     flex: none;
+    margin: 0;
   }
   .is-network .canvas-stage {
-    min-height: 520px;
+    min-height: 440px;
   }
   .canvas-heading,
   .stage-footer,
@@ -207,11 +204,6 @@
     left: auto;
     top: auto;
     bottom: auto;
-    margin-top: 10px;
+    margin-top: 8px;
   }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .app-shell,
-  .environment-panel { animation: none; }
 }

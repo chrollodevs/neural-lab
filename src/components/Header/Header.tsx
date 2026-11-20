@@ -32,6 +32,7 @@ export function Header() {
       </div>
       <div className={`header-status ${statusClass}`} aria-label={statusText} title={statusText}>
         <span className="status-dot" />
+        <span className="status-text mono">{statusText}</span>
       </div>
     </header>
   );

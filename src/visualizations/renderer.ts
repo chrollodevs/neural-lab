@@ -43,25 +43,25 @@ export interface RenderOptions {
 
 // ── Colors (matching tokens.css) ──
 const C = {
-  bgDeep: '#050505',
-  bgElevated: '#101010',
-  textPrimary: '#f2f2ef',
-  textSecondary: '#a7a7a2',
-  textTertiary: '#6f6f6b',
-  accent: '#d9d9d4',
-  accentBright: '#ffffff',
-  accentGlow: 'rgba(255, 255, 255, 0.2)',
-  accentMuted: 'rgba(255, 255, 255, 0.08)',
-  weightPos: '#deded8',
-  weightNeg: '#858580',
-  layerInput: '#70c8d6',
-  layerH1: '#9b8bd4',
-  layerH2: '#75b9ad',
-  layerOutput: '#d8c6a1',
-  nodeIdle: '#31312f',
-  nodeIdleBorder: '#777773',
-  gridEmpty: '#1b1b19',
-  gridBorder: '#454541',
+  bgDeep: '#07080a',
+  bgElevated: '#101317',
+  textPrimary: '#e6e8eb',
+  textSecondary: '#8e96a0',
+  textTertiary: '#525a65',
+  accent: '#4f7a99',
+  accentBright: '#6b9ab8',
+  accentGlow: 'rgba(79, 122, 153, 0.22)',
+  accentMuted: 'rgba(79, 122, 153, 0.12)',
+  weightPos: '#96b4c4',
+  weightNeg: '#465460',
+  layerInput: '#8a9baa',
+  layerH1: '#b87282',
+  layerH2: '#5a8e72',
+  layerOutput: '#cfa152',
+  nodeIdle: '#13171c',
+  nodeIdleBorder: '#272f38',
+  gridEmpty: '#090b0e',
+  gridBorder: '#1a2028',
 };
 
 const LAYER_COLORS = [C.layerInput, C.layerH1, C.layerH2, C.layerOutput];
@@ -120,13 +120,19 @@ export function renderNetwork(ctx: CanvasRenderingContext2D, opts: RenderOptions
 // ── Background ──
 
 function drawDotGrid(ctx: CanvasRenderingContext2D, w: number, h: number): void {
-  const spacing = 24;
-  ctx.fillStyle = 'rgba(255, 255, 255, 0.015)';
+  ctx.strokeStyle = 'rgba(255, 255, 255, 0.022)';
+  ctx.lineWidth = 1;
+  const spacing = 32;
+  ctx.beginPath();
   for (let x = spacing; x < w; x += spacing) {
-    for (let y = spacing; y < h; y += spacing) {
-      ctx.fillRect(x, y, 1, 1);
-    }
+    ctx.moveTo(x, 0);
+    ctx.lineTo(x, h);
   }
+  for (let y = spacing; y < h; y += spacing) {
+    ctx.moveTo(0, y);
+    ctx.lineTo(w, y);
+  }
+  ctx.stroke();
 }
 
 // ── Layer labels ──
@@ -140,13 +146,20 @@ function drawLayerLabels(ctx: CanvasRenderingContext2D, layout: NetworkLayout): 
     if (!layer) continue;
 
     const color = LAYER_COLORS[li] ?? C.textSecondary;
-    const labelY = Math.min(layer.topY - 28, layout.height - 60);
+    const labelY = Math.min(layer.topY - 26, layout.height - 60);
+
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.07)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(layer.centerX, Math.max(28, layer.topY - 8));
+    ctx.lineTo(layer.centerX, Math.min(layout.height - 28, layer.bottomY + 8));
+    ctx.stroke();
 
     // Layer name
-    ctx.font = '500 10px "IBM Plex Mono", monospace';
+    ctx.font = '500 9px "IBM Plex Mono", monospace';
     ctx.fillStyle = color;
-    ctx.globalAlpha = 0.7;
-    ctx.fillText(layer.name.replace('_', ' '), layer.centerX, Math.max(8, labelY));
+    ctx.globalAlpha = 0.85;
+    ctx.fillText(layer.name.replace('_', ' ').toUpperCase(), layer.centerX, Math.max(8, labelY));
 
     // Unit count
     ctx.font = '10px "IBM Plex Mono", monospace';
@@ -241,9 +254,9 @@ function drawTopologyScaffold(
       }
     }
 
-    ctx.strokeStyle = C.textTertiary;
+    ctx.strokeStyle = C.accent;
     ctx.lineWidth = 0.35;
-    ctx.globalAlpha = 0.35;
+    ctx.globalAlpha = 0.16;
     ctx.stroke(path);
     ctx.globalAlpha = 1;
   }
@@ -302,8 +315,8 @@ function drawSampledConnections(
 
   activeEdges.sort((a, b) => b.score - a.score);
 
-  ctx.lineWidth = 0.65;
-  ctx.globalAlpha = 0.12 + phase * 0.2;
+  ctx.lineWidth = 0.45;
+  ctx.globalAlpha = 0.08 + phase * 0.16;
 
   const layerColor = LAYER_COLORS[modelLayerIndex] ?? C.weightPos;
   const negativeLayerColor = lerpColor(C.weightNeg, layerColor, 0.28);
@@ -359,7 +372,7 @@ function drawContributionTiers(
       : tier === 'secondary'
         ? 0.14 + phase * 0.32 * Math.max(0.45, relativeScore)
         : 0.08 + phase * 0.16 * Math.max(0.3, relativeScore);
-    const width = tier === 'primary' ? 1.45 : tier === 'secondary' ? 0.9 : 0.62;
+    const width = tier === 'primary' ? 1.15 : tier === 'secondary' ? 0.7 : 0.45;
     const path = new Path2D();
     path.moveTo(source.x, source.y);
     const dx = target.x - source.x;
@@ -542,7 +555,7 @@ function drawHiddenOutputNodes(
   totalLayers: number,
 ): void {
   const isOutput = layerIndex === totalLayers - 1;
-  const baseRadius = isOutput ? 12 : (layer.units > 80 ? 2.35 : 4);
+  const baseRadius = isOutput ? 11 : (layer.units > 80 ? 2.1 : 3.6);
   const layerColor = LAYER_COLORS[layerIndex] ?? C.textSecondary;
 
   for (let ni = 0; ni < layer.nodes.length; ni++) {
@@ -658,7 +671,7 @@ function drawOutputLabels(
 
       ctx.font = '10px "IBM Plex Mono", monospace';
       ctx.textAlign = 'left';
-      ctx.fillStyle = isPredicted ? C.accentBright : C.textTertiary;
+      ctx.fillStyle = isPredicted ? C.layerOutput : C.textTertiary;
       ctx.globalAlpha = isPredicted ? 1 : 0.6;
       ctx.fillText(
         `${(prob * 100).toFixed(1)}%`,
@@ -669,7 +682,7 @@ function drawOutputLabels(
 
       // Small bar indicator
       if (isPredicted) {
-        ctx.fillStyle = C.accent;
+        ctx.fillStyle = C.layerOutput;
         ctx.globalAlpha = 0.5;
         ctx.fillRect(node.x + 18, node.y + 7, prob * 40, 2);
       }

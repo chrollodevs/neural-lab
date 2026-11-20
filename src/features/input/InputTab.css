@@ -1,8 +1,8 @@
 .input-tab {
-  padding: 20px 24px;
+  padding: 14px 16px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 18px;
   overflow-y: auto;
   flex: 1;
 }
@@ -10,8 +10,10 @@
 .input-section {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
   max-width: 480px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
 }
 
 .drawing-section {
@@ -19,10 +21,10 @@
 }
 
 .drawing-canvas {
-  width: 280px;
-  height: 280px;
+  width: 264px;
+  height: 264px;
   max-width: 100%;
-  background: #07090c;
+  background: #05070a;
   border: 1px solid var(--border);
   touch-action: none;
   cursor: crosshair;
@@ -39,20 +41,23 @@
   border: 1px solid var(--border);
   background: transparent;
   color: var(--text-primary);
-  font: inherit;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
   cursor: pointer;
-  transition: border-color 180ms var(--ease-out), color 180ms var(--ease-out), transform 120ms var(--ease-out);
+  transition: border-color 160ms var(--ease-out), color 160ms var(--ease-out), transform 120ms var(--ease-out);
 }
 
 .text-button {
   padding: 6px 10px;
+  text-transform: uppercase;
 }
 
 .text-button:hover,
 .sample-button:hover,
 .sample-button.selected {
   border-color: var(--accent);
-  color: var(--accent);
+  color: var(--accent-bright);
 }
 
 .text-button:active,
@@ -80,31 +85,36 @@
   grid-template-columns: repeat(28, 1px);
   width: 28px;
   height: 28px;
-  background: #07090c;
+  background: #05070a;
+  border: 1px solid var(--border);
 }
 
 .sample-glyph i {
   width: 1px;
   height: 1px;
-  background: var(--text-primary);
+  background: var(--accent-bright);
 }
 
 .input-confirmation {
   color: var(--accent);
-  font-size: 11px;
+  font-size: 10px;
+  font-family: var(--font-mono);
 }
 
 .input-message {
   color: var(--text-secondary);
   font-size: 11px;
-  line-height: 1.6;
+  line-height: 1.55;
 }
 
 .section-label {
   margin: 0;
-  color: var(--text-primary);
-  font-size: 16px;
+  color: var(--text-tertiary);
+  font-family: var(--font-mono);
+  font-size: 9px;
   font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
 }
 
 @media (prefers-reduced-motion: reduce) {

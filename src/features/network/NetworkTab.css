@@ -1,23 +1,23 @@
 .network-tab {
   min-height: 100%;
-  padding: 18px 18px 16px;
+  padding: 14px 16px 16px;
   display: flex;
   flex-direction: column;
-  gap: 28px;
+  gap: 18px;
 }
 
 .rail-intro {
   display: flex;
   flex-direction: column;
-  gap: 9px;
+  gap: 8px;
 }
 
 .rail-intro h2 {
-  font-family: var(--font-display);
-  font-size: 21px;
-  line-height: 1.05;
-  font-weight: 600;
-  letter-spacing: -0.035em;
+  font-family: var(--font-ui);
+  font-size: 14px;
+  line-height: 1.2;
+  font-weight: 500;
+  letter-spacing: -0.02em;
   color: var(--text-primary);
 }
 
@@ -26,7 +26,7 @@
 .network-inspector p {
   color: var(--text-secondary);
   font-size: 11px;
-  line-height: 1.65;
+  line-height: 1.55;
 }
 
 .layer-list {
@@ -38,34 +38,16 @@
 .layer-row {
   position: relative;
   display: grid;
-  grid-template-columns: 24px 8px 1fr;
+  grid-template-columns: 22px 8px 1fr;
   align-items: center;
   gap: 10px;
-  min-height: 48px;
+  min-height: 44px;
   border-bottom: 1px solid var(--border);
-  transition: color 160ms var(--ease-out), background-color 160ms var(--ease-out);
-}
-
-.layer-row::after {
-  content: '';
-  position: absolute;
-  left: 34px;
-  right: 0;
-  bottom: -1px;
-  height: 1px;
-  background: var(--accent);
-  transform: scaleX(0);
-  transform-origin: left center;
-  transition: transform 180ms var(--ease-out);
 }
 
 @media (hover: hover) and (pointer: fine) {
   .layer-row:hover {
     background: var(--accent-muted);
-  }
-
-  .layer-row:hover::after {
-    transform: scaleX(1);
   }
 }
 
@@ -75,32 +57,20 @@
 }
 
 .layer-marker {
-  width: 7px;
-  height: 7px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
   background: var(--layer-input);
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.06);
 }
 
-.layer-1 .layer-marker {
-  background: var(--layer-hidden-1);
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.08);
-}
-
-.layer-2 .layer-marker {
-  background: var(--layer-hidden-2);
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.08);
-}
-
-.layer-3 .layer-marker {
-  background: var(--layer-output);
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.08);
-}
+.layer-1 .layer-marker { background: var(--layer-hidden-1); }
+.layer-2 .layer-marker { background: var(--layer-hidden-2); }
+.layer-3 .layer-marker { background: var(--layer-output); }
 
 .layer-copy {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 3px;
 }
 
 .layer-copy strong {
@@ -119,17 +89,16 @@
 .network-legend {
   display: flex;
   flex-direction: column;
-  gap: 9px;
+  gap: 8px;
 }
 
 .selection-readout {
   display: flex;
   flex-direction: column;
   gap: 4px;
-  padding: 12px;
-  border-top: 1px solid var(--border-strong);
-  border-bottom: 1px solid var(--border-strong);
-  background: transparent;
+  padding: 10px;
+  border: 1px solid var(--border);
+  background: var(--bg-elevated);
 }
 
 .selection-readout strong {
@@ -151,6 +120,6 @@
 
 .network-legend {
   margin-top: auto;
-  padding-top: 18px;
+  padding-top: 14px;
   border-top: 1px solid var(--border);
 }

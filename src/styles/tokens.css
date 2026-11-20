@@ -1,62 +1,80 @@
 /*
- * Design tokens — Scientific Instrument direction (D6)
+ * Design tokens — scientific neural network workstation / intelligence analysis
  *
- * Palette: graphite field, paper-white network, restrained grayscale activity.
- * 
- * Typography: Inter for UI, IBM Plex Mono for technical readouts.
- * Easing: from animate skill — strong custom curves, never built-in ease-in.
+ * Palette direction:
+ * - Deep obsidian surfaces (near-black, non-reflective)
+ * - Single-pixel hairline dividers
+ * - High-contrast technical typography
+ * - Cool steel-blue accent (#4f7a99) — restrained, functional, not decorative
+ * - Analytical amber (#cfa152) — classification, prediction, output
+ * - PROCAINE-inspired spectral layer encodings: slate / rose / sage / amber
  */
 
 :root {
-  --bg-deep: #050505;
-  --bg: #080808;
-  --bg-elevated: #101010;
-  --bg-surface: #171717;
-  --bg-hover: #202020;
+  /* Surface backgrounds */
+  --bg-deep: #07080a;
+  --bg: #0b0d10;
+  --bg-elevated: #101317;
+  --bg-surface: #15191f;
+  --bg-hover: #1b2129;
+  --bg-active: #232b34;
 
-  /* ── Text ── */
-  --text-primary: #f2f2ef;
-  --text-secondary: #a7a7a2;
-  --text-tertiary: #6f6f6b;
-  --text-inverse: #080808;
+  /* Typography */
+  --text-primary: #e6e8eb;
+  --text-secondary: #8e96a0;
+  --text-tertiary: #525a65;
+  --text-disabled: #38404a;
+  --text-inverse: #07080a;
 
-  --accent: #d9d9d4;
-  --accent-bright: #ffffff;
-  --accent-emphasis: #a8a8a3;
-  --accent-muted: rgba(255, 255, 255, 0.1);
-  --accent-glow: rgba(255, 255, 255, 0.2);
+  /* Steel-blue accent — used sparingly on structural elements */
+  --accent: #4f7a99;
+  --accent-bright: #6b9ab8;
+  --accent-emphasis: #3a5e78;
+  --accent-muted: rgba(79, 122, 153, 0.12);
+  --accent-subtle: rgba(79, 122, 153, 0.06);
+  --accent-glow: rgba(79, 122, 153, 0.22);
 
-  /* ── Weight encoding (D24) ── positive vs negative weight sign */
-  --weight-positive: #d9d9d4;
-  --weight-negative: #777773;
+  /* Analytical amber — model outputs, predictions, highlighted values */
+  --accent-amber: #cfa152;
+  --accent-amber-bright: #e0b96a;
+  --accent-amber-muted: rgba(207, 161, 82, 0.13);
 
-  /* ── Semantic ── */
-  --danger: #d2d2cd;
-  --success: #b7b7b2;
+  /* Weight sign encoding */
+  --weight-positive: #96b4c4;
+  --weight-negative: #465460;
 
-  /* ── Layer identity ── subtle visual distinction per layer type */
-  --layer-input: #b6b6b1;
-  --layer-hidden-1: #e0e0da;
-  --layer-hidden-2: #c4c4be;
-  --layer-output: #f2f2ef;
+  /* Status */
+  --danger: #9b4a3f;
+  --warning: #cfa152;
+  --success: #5a8e72;
+  --info: #4f7a99;
 
-  /* ── Borders ── */
-  --border: rgba(242, 242, 239, 0.14);
-  --border-strong: rgba(242, 242, 239, 0.28);
-  --border-focus: var(--text-primary);
+  /* Layer spectral identity (PROCAINE palette) */
+  --layer-input: #8a9baa;
+  --layer-hidden-1: #b87282;
+  --layer-hidden-2: #5a8e72;
+  --layer-output: #cfa152;
 
-  /* ── Typography ── */
-  --font-display: 'Segoe UI Variable Display', 'Segoe UI Variable', 'Segoe UI', sans-serif;
-  --font-ui: 'Segoe UI Variable Text', 'Segoe UI Variable', 'Segoe UI', sans-serif;
-  --font-mono: 'IBM Plex Mono', 'Menlo', 'Consolas', monospace;
+  /* Structural hairlines */
+  --border: rgba(255, 255, 255, 0.07);
+  --border-strong: rgba(255, 255, 255, 0.13);
+  --border-subtle: rgba(255, 255, 255, 0.04);
+  --border-focus: var(--accent);
 
+  /* Typography */
+  --font-display: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-ui: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'IBM Plex Mono', 'SF Mono', 'Menlo', 'Consolas', monospace;
+
+  /* Scale */
+  --text-2xs: 9px;
   --text-xs: 10px;
   --text-sm: 11px;
-  --text-base: 13px;
-  --text-md: 14px;
-  --text-lg: 16px;
+  --text-base: 12px;
+  --text-md: 13px;
+  --text-lg: 15px;
 
-  /* ── Spacing ── 4px base */
+  /* Spacing */
   --sp-1: 4px;
   --sp-2: 8px;
   --sp-3: 12px;
@@ -66,17 +84,19 @@
   --sp-8: 32px;
   --sp-10: 40px;
 
-  /* ── Radii ── */
-  --radius-xs: 2px;
-  --radius-sm: 4px;
-  --radius-md: 6px;
+  /* Geometry — precision edges */
+  --radius-xs: 0px;
+  --radius-sm: 1px;
+  --radius-md: 2px;
 
-  /* ── Easing (from animate skill — strong custom curves) ── */
-  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
-  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  /* Transitions */
+  --ease-out: cubic-bezier(0.2, 0.9, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
 
-  /* ── Shadows ── */
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.5);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.6);
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.6);
+
+  /* Canvas grid */
+  --grid-line: rgba(255, 255, 255, 0.022);
 }

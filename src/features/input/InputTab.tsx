@@ -37,7 +37,7 @@ export function InputTab() {
     if (!context) return;
     context.lineCap = 'round';
     context.lineJoin = 'round';
-    context.strokeStyle = '#f2f4f7';
+    context.strokeStyle = '#c8d4dc';
     context.lineWidth = 22;
     context.lineTo(
       ((event.clientX - rect.left) / rect.width) * canvas.width,
