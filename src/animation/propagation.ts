@@ -6,14 +6,17 @@
  *
  * Animation phases:
  *   0.0 = idle (no animation)
- *   0.0–0.18 = input layer lights up
- *   0.18–0.42 = hidden 1 activates
- *   0.42–0.66 = hidden 2 activates
- *   0.66–0.86 = output layer reveals
- *   0.86–1.0 = final settling
+ *   0.0–0.20 = input layer lights up
+ *   0.20–0.45 = hidden 1 activates
+ *   0.45–0.70 = hidden 2 activates
+ *   0.70–0.88 = output layer reveals
+ *   0.88–1.0  = final settling
  *   1.0 = complete (all layers visible)
  *
  * Reduced-motion: snaps to phase 1.0 immediately.
+ *
+ * Reliability fix: animation uses a closure-local startTime set at RAF fire
+ * time (not at start() call time), preventing stale timing on slower machines.
  */
 
 export interface AnimationState {
@@ -41,7 +44,8 @@ export const START_ANIMATION: AnimationState = {
   resetting: false,
 };
 
-const TOTAL_DURATION_MS = 3400;
+// Reduced from 3400ms → 1600ms for a noticeably faster, more fluid feel.
+const TOTAL_DURATION_MS = 1600;
 
 /**
  * Create an animation controller.
@@ -54,16 +58,22 @@ export function createPropagationAnimation(
   onUpdate: (state: AnimationState) => void,
   onComplete: () => void,
 ): { start: () => void; skip: () => void; cancel: () => void } {
-  let startTime = 0;
+  let startTime = -1; // -1 = not yet set; set on first RAF tick
   let rafId = 0;
   let cancelled = false;
 
   function tick(now: number) {
     if (cancelled) return;
+
+    // Set startTime on the first actual RAF tick — this is the fix for
+    // machines where performance.now() at start() and at first RAF differ
+    // significantly, causing the animation to appear skipped.
+    if (startTime < 0) {
+      startTime = now;
+    }
+
     const elapsed = now - startTime;
     const rawPhase = Math.min(1, elapsed / TOTAL_DURATION_MS);
-
-    // Keep the presentation deliberate; the renderer eases each layer locally.
     const phase = rawPhase;
     const activeLayerIndex = Math.min(
       layerCount - 1,
@@ -78,18 +88,17 @@ export function createPropagationAnimation(
       onUpdate(IDLE_ANIMATION);
       onComplete();
     }
-
   }
 
   return {
     start() {
       cancelled = false;
+      startTime = -1; // Reset so first tick initialises it
       if (reducedMotion) {
         onUpdate(IDLE_ANIMATION);
         onComplete();
         return;
       }
-      startTime = performance.now();
       rafId = requestAnimationFrame(tick);
     },
     skip() {
@@ -110,13 +119,14 @@ export function createClearAnimation(
   onUpdate: (state: AnimationState) => void,
   onComplete: () => void,
 ): { start: () => void; cancel: () => void } {
-  let startTime = 0;
+  let startTime = -1;
   let rafId = 0;
   let cancelled = false;
-  const duration = 520;
+  const duration = 400; // slightly faster clear too
 
   function tick(now: number) {
     if (cancelled) return;
+    if (startTime < 0) startTime = now;
     const progress = Math.min(1, (now - startTime) / duration);
     const phase = 1 - (progress * progress * (3 - 2 * progress));
     onUpdate({ phase, activeLayerIndex: -1, playing: false, resetting: true });
@@ -131,12 +141,12 @@ export function createClearAnimation(
   return {
     start() {
       cancelled = false;
+      startTime = -1;
       if (reducedMotion) {
         onUpdate(IDLE_ANIMATION);
         onComplete();
         return;
       }
-      startTime = performance.now();
       rafId = requestAnimationFrame(tick);
     },
     cancel() {

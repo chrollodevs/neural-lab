@@ -1,6 +1,5 @@
 /**
  * Network tab — the contextual rail for the Canvas 2D graph (D14).
- * The canvas itself is owned by the application shell.
  */
 
 import { useAppState } from '../../state';
@@ -20,26 +19,26 @@ export function NetworkTab() {
   return (
     <div className="network-tab">
       <div className="rail-intro">
-        <span className="section-label mono">Network map</span>
+        <span className="section-label">Network map</span>
         <h2>One pass, four layers.</h2>
         <p>Explore the shape of the classifier before you run it. Activity appears only when a real trace exists.</p>
       </div>
       <div className="layer-list" aria-label="Network layers">
         {layers.map((layer, index) => (
           <div className={`layer-row layer-${index}`} key={layer.name}>
-            <span className="layer-index mono">0{index + 1}</span>
+            <span className="layer-index">0{index + 1}</span>
             <span className="layer-marker" />
             <span className="layer-copy">
               <strong>{layer.name.replace('_', ' ')}</strong>
-              <small className="mono">{layer.units} units · {layer.activation}</small>
+              <small>{layer.units} units · {layer.activation}</small>
             </span>
           </div>
         ))}
       </div>
       <div className="network-inspector">
-        <span className="section-label mono">Selection</span>
+        <span className="section-label">Selection</span>
         {selectedNode ? (
-          <div className="selection-readout mono">
+          <div className="selection-readout">
             <strong>Node {selectedNode.nodeIndex}</strong>
             <span>Layer {selectedNode.layerIndex + 1}</span>
             <small>Run inference to inspect activation values.</small>
@@ -49,7 +48,7 @@ export function NetworkTab() {
         )}
       </div>
       <div className="network-legend">
-        <span className="section-label mono">Display rule</span>
+        <span className="section-label">Display rule</span>
         <p>Connections are filtered for legibility. The underlying dense adjacency is unchanged.</p>
       </div>
     </div>

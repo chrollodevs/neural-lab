@@ -1,14 +1,5 @@
 /**
  * Overview tab (D3) — model facts and experiment summary.
- *
- * Shows:
- * - Architecture (784 → 128 → 64 → 10)
- * - Dataset (MNIST)
- * - Parameter count from the loaded model (not hardcoded — D15)
- * - Model performance only if stored with export (D26 — OPEN)
- * - Current experiment status
- *
- * Does not fabricate accuracy or metrics (D9).
  */
 
 import { useAppState } from '../../state';
@@ -20,32 +11,32 @@ export function OverviewTab() {
   return (
     <div className="overview-tab">
       <section className="overview-section">
-        <h3 className="section-label mono">Architecture</h3>
-        <div className="overview-value mono">
+        <h3 className="section-label">Architecture</h3>
+        <div className="overview-value">
           {modelStatus.state === 'loaded' ? (
             modelStatus.model.meta.layers.map((l) => l.units).join(' → ')
           ) : (
             <span className="text-muted">784 → 128 → 64 → 10 (expected)</span>
           )}
         </div>
-        <div className="overview-detail mono">
+        <div className="overview-detail">
           Dense MLP · ReLU hidden · Softmax output
         </div>
       </section>
 
       <section className="overview-section">
-        <h3 className="section-label mono">Dataset</h3>
-        <div className="overview-value mono">MNIST</div>
-        <div className="overview-detail mono">28×28 grayscale handwritten digits</div>
+        <h3 className="section-label">Dataset</h3>
+        <div className="overview-value">MNIST</div>
+        <div className="overview-detail">28 × 28 grayscale handwritten digits</div>
       </section>
 
       <section className="overview-section">
-        <h3 className="section-label mono">Parameters</h3>
-        <div className="overview-value mono">
+        <h3 className="section-label">Parameters</h3>
+        <div className="overview-value">
           {modelStatus.state === 'loaded' ? (
             modelStatus.model.meta.totalParameters.toLocaleString()
           ) : modelStatus.state === 'absent' ? (
-            <span className="text-muted">—  No model artifact loaded</span>
+            <span className="text-muted">— No model artifact loaded</span>
           ) : modelStatus.state === 'loading' ? (
             <span className="text-muted">Loading…</span>
           ) : (
@@ -55,43 +46,48 @@ export function OverviewTab() {
       </section>
 
       <section className="overview-section">
-        <h3 className="section-label mono">Performance</h3>
-        <div className="overview-value mono text-muted">
+        <h3 className="section-label">Performance</h3>
+        <div className="overview-value text-muted">
           Not yet evaluated
         </div>
-        <div className="overview-detail mono">
-          Accuracy will appear here when an evaluated metric is stored with the export (D26)
+        <div className="overview-detail">
+          Accuracy appears here when an evaluated metric is stored with the export.
         </div>
       </section>
 
       <section className="overview-section">
-        <h3 className="section-label mono">Experiment</h3>
-        <div className="overview-detail mono">
+        <h3 className="section-label">Experiment</h3>
+        <div className="overview-detail overview-kv">
           <div>
-            Input: {input ? (
-              <span>{input.source === 'sample' ? `Sample digit ${input.label ?? '?'}` : 'Drawn digit'}</span>
-            ) : (
-              <span className="text-muted">None</span>
-            )}
+            <span className="text-dim">Input</span>
+            <span>
+              {input ? (
+                input.source === 'sample' ? `Sample digit ${input.label ?? '?'}` : 'Drawn digit'
+              ) : (
+                <span className="text-muted">None</span>
+              )}
+            </span>
           </div>
           <div>
-            Inference: {inference.state === 'complete' ? (
-              <span className="text-accent">
-                Predicted class {inference.trace.predictedClass}
-                {' · '}
-                p = {(inference.trace.probabilities[inference.trace.predictedClass] ?? 0).toFixed(4)}
-              </span>
-            ) : inference.state === 'running' ? (
-              <span>Running…</span>
-            ) : inference.state === 'error' ? (
-              <span className="text-danger">{inference.error}</span>
-            ) : (
-              <span className="text-muted">Not run</span>
-            )}
+            <span className="text-dim">Inference</span>
+            <span>
+              {inference.state === 'complete' ? (
+                <span className="text-amber">
+                  Digit {inference.trace.predictedClass} · {(
+                    (inference.trace.probabilities[inference.trace.predictedClass] ?? 0) * 100
+                  ).toFixed(1)}%
+                </span>
+              ) : inference.state === 'running' ? (
+                <span>Running…</span>
+              ) : inference.state === 'error' ? (
+                <span className="text-danger">{inference.error}</span>
+              ) : (
+                <span className="text-muted">Not run</span>
+              )}
+            </span>
           </div>
         </div>
       </section>
     </div>
   );
 }
-

@@ -1,9 +1,16 @@
 .network-tab {
   min-height: 100%;
-  padding: 14px 16px 16px;
+  padding: 16px 18px 18px;
   display: flex;
   flex-direction: column;
   gap: 18px;
+}
+
+.network-tab .section-label {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-tertiary);
 }
 
 .rail-intro {
@@ -14,10 +21,10 @@
 
 .rail-intro h2 {
   font-family: var(--font-ui);
-  font-size: 14px;
+  font-size: 15px;
   line-height: 1.2;
   font-weight: 500;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.025em;
   color: var(--text-primary);
 }
 
@@ -25,7 +32,7 @@
 .network-legend p,
 .network-inspector p {
   color: var(--text-secondary);
-  font-size: 11px;
+  font-size: 12px;
   line-height: 1.55;
 }
 
@@ -53,7 +60,9 @@
 
 .layer-index {
   color: var(--text-tertiary);
-  font-size: 9px;
+  font-family: var(--font-ui);
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
 }
 
 .layer-marker {
@@ -77,12 +86,14 @@
   color: var(--text-primary);
   font-size: 12px;
   font-weight: 500;
-  text-transform: capitalize;
+  text-transform: none;
 }
 
 .layer-copy small {
   color: var(--text-tertiary);
-  font-size: 9px;
+  font-family: var(--font-ui);
+  font-size: 10.5px;
+  font-variant-numeric: tabular-nums;
 }
 
 .network-inspector,
@@ -96,25 +107,26 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
-  padding: 10px;
+  padding: 12px;
   border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
   background: var(--bg-elevated);
 }
 
 .selection-readout strong {
-  color: var(--accent-bright);
+  color: var(--text-primary);
   font-size: 12px;
   font-weight: 500;
 }
 
 .selection-readout span {
   color: var(--text-secondary);
-  font-size: 10px;
+  font-size: 11px;
 }
 
 .selection-readout small {
   color: var(--text-tertiary);
-  font-size: 9px;
+  font-size: 11px;
   line-height: 1.5;
 }
 

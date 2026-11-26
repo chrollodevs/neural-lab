@@ -12,10 +12,10 @@ export function ActivationsTab() {
   if (inference.state !== 'complete') {
     return (
       <div className="activations-tab">
-        <p className="empty-message mono">
+        <p className="empty-message">
           {inference.state === 'running'
-            ? 'Computing…'
-            : 'Run inference to see activation values.'}
+            ? 'Computing activations…'
+            : 'Run inference to inspect activation values across every layer.'}
         </p>
       </div>
     );
@@ -25,30 +25,24 @@ export function ActivationsTab() {
 
   return (
     <div className="activations-tab">
-      {/* Input tensor as 28×28 grid preview */}
       <section className="activation-section">
-        <h3 className="section-label mono">Input (784)</h3>
-        <div className="activation-grid mono">
+        <h3 className="section-label">Input · 784</h3>
+        <div className="activation-grid" aria-label="28 by 28 input intensity grid">
           {Array.from(trace.input.slice(0, 784)).map((val, i) => (
             <span
               key={i}
               className="activation-cell"
-              style={{
-                opacity: 0.2 + val * 0.8,
-              }}
-              title={`[${Math.floor(i / 28)},${i % 28}] = ${val.toFixed(3)}`}
-            >
-              ·
-            </span>
+              style={{ opacity: 0.14 + val * 0.86 }}
+              title={`[${Math.floor(i / 28)}, ${i % 28}] = ${val.toFixed(3)}`}
+            />
           ))}
         </div>
       </section>
 
-      {/* Each layer's activations */}
       {trace.layerResults.map((layer) => (
         <section key={layer.layerName} className="activation-section">
-          <h3 className="section-label mono">
-            {layer.layerName} ({layer.activation.length})
+          <h3 className="section-label">
+            {layer.layerName.replace('_', ' ')} · {layer.activation.length}
           </h3>
           <div className="activation-values mono">
             {Array.from(layer.activation).map((val, i) => (
@@ -64,23 +58,19 @@ export function ActivationsTab() {
         </section>
       ))}
 
-      {/* Output probabilities */}
       <section className="activation-section">
-        <h3 className="section-label mono">Probabilities (10)</h3>
-        <div className="probability-list mono">
+        <h3 className="section-label">Probabilities · 10</h3>
+        <div className="probability-list">
           {Array.from(trace.probabilities).map((p, i) => (
             <div
               key={i}
               className={`prob-row ${i === trace.predictedClass ? 'predicted' : ''}`}
             >
-              <span className="prob-digit">{i}</span>
+              <span className="prob-digit mono">{i}</span>
               <div className="prob-bar-bg">
-                <div
-                  className="prob-bar"
-                  style={{ width: `${p * 100}%` }}
-                />
+                <div className="prob-bar" style={{ width: `${p * 100}%` }} />
               </div>
-              <span className="prob-value">{p.toFixed(4)}</span>
+              <span className="prob-value mono">{(p * 100).toFixed(1)}%</span>
             </div>
           ))}
         </div>
@@ -88,4 +78,3 @@ export function ActivationsTab() {
     </div>
   );
 }
-

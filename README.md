@@ -2,78 +2,124 @@
 
 An interactive, browser-based neural network laboratory for exploring handwritten digit recognition, forward propagation, activations, and model predictions.
 
-Neural Lab turns a drawn or supplied MNIST digit into a 28 × 28 input tensor, runs a real multilayer perceptron in the browser, and exposes the intermediate computation. It is intended for learners and instructors who want to inspect the mechanics of an inference pass rather than treat a prediction as a black box.
+Neural Lab turns a drawn or supplied MNIST digit into a 28 × 28 grayscale tensor, runs a real multilayer perceptron (`784 → 128 → 64 → 10`) directly in the browser, and visualizes the resulting activations, weighted connections, and class probabilities. It is designed as an educational instrument for inspecting what happens inside a trained neural network rather than treating predictions as a black box.
 
-## What to explore
+## Educational Purpose
 
-- Draw a digit or load one genuine MNIST sample for each class.
-- Run the browser-side forward pass explicitly.
-- Inspect the `784 → 128 → 64 → 10` dense network, ReLU activations, and output probabilities.
-- View the stored forward trace used by the network visualization.
-- Use occlusion sensitivity to see how masking input regions changes the predicted-class probability. This is an output-sensitivity method, not proof that the model understands a human-defined feature.
+Neural Lab was built as a third-year Computer Science undergraduate project (Université Mohamed El Bachir El Ibrahimi de Bordj Bou Arréridj) to make forward propagation, ReLU activations, softmax probabilities, and input sensitivity tangible through direct visual inspection.
 
-## Model
+## Key Features
 
-The model is a dense multilayer perceptron:
+- **Interactive Network Visualization:** Canvas 2D rendering of the `784 → 128 → 64 → 10` network with cubic Bézier bundle routing, layer-tinted signal streaks, and hover/click inspection showing real pre-activation ($z$), activation ($a$), and probability values.
+- **Digit Input & Preprocessing:** Draw a digit on a 280 × 280 canvas (automatically cropped, scaled to 20 × 20, and centered by center of mass into 28 × 28) or select one of 10 real MNIST test samples (`0–9`).
+- **Explicit Forward Pass:** Inference runs locally in the browser on demand via `Run Inference` without any backend server.
+- **Six Workspace Views:**
+  - **Overview:** Model architecture, dataset summary, parameter count (`109,386`), and current experiment state.
+  - **Network:** Layer breakdown and pinned node selection readout.
+  - **Activations:** Full numeric activation vectors per layer and softmax probability distribution.
+  - **Explain:** An interactive 3D neural network introduction (`<model-viewer>`), followed by a step-by-step breakdown of the current forward pass and 169-window **occlusion sensitivity** analysis.
+  - **Input:** Drawing pad and real MNIST sample selector.
+  - **About:** Academic context, project team, and intro sequence replay.
 
-```text
-784 inputs (28 × 28 grayscale)
-  → 128 hidden units, ReLU
-  → 64 hidden units, ReLU
-  → 10 outputs, softmax
-```
+## Screenshots
 
-The exported JSON contains 109,386 parameters. The browser uses a custom `Float32Array` forward pass; no backend or hosted inference service is required. The distributed artifact was trained with PyTorch on the official MNIST train/test files using a deterministic 55,000/5,000 train/validation split and the untouched 10,000-image test set. Its recorded test accuracy is **97.46%** (`0.9746`) on that test split. This is an evaluation result for this exported checkpoint, not a guarantee for user drawings.
+<!-- Add screenshots of the Network tab, Explain tab 3D viewer, and Occlusion map before publishing -->
+- *[Placeholder: Main Network visualization after inference]*
+- *[Placeholder: Explain tab — 3D neural network introduction & occlusion sensitivity map]*
 
-## Run locally
+## How It Works
 
-Requirements:
+1. **Model Loading:** On startup, the browser fetches `public/model/mnist-mlp.json`, validates the layer shapes and weights, and loads them into `Float32Array` typed arrays.
+2. **Preprocessing:** Drawings are thresholded, cropped to their bounding box, aspect-scaled into a 20 × 20 box using bilinear sampling, and shifted by center of mass into a 28 × 28 `[0, 1]` tensor.
+3. **Inference (`784 → 128 → 64 → 10`):**
+   - Hidden 1: `784 → 128` linear transform ($z = Wx + b$) + `ReLU`
+   - Hidden 2: `128 → 64` linear transform + `ReLU`
+   - Output: `64 → 10` logits + numerically stable `Softmax`
+4. **Visualization & Occlusion:** The frozen `ForwardTrace` drives the Canvas 2D visualization, numeric activation tables, and a 4 × 4 stride-2 occlusion pass (`169` windows) in the Explain tab.
+
+## Neural Network & Training Provenance
+
+- **Architecture:** Dense MLP (`784 → 128 → 64 → 10`), **109,386 trainable parameters**.
+- **Training (Offline):** Trained with PyTorch (`model/training/train_mnist.py`) on the official MNIST dataset using a deterministic `55,000` train / `5,000` validation / `10,000` test split (`Adam`, `lr = 0.001`, `CrossEntropyLoss`, `10` epochs, seed `42`).
+- **Browser Inference:** Custom `Float32Array` matrix-vector multiplication in `src/model/forward.ts` (no backend, no TensorFlow.js, no ONNX Runtime).
+
+## Tech Stack
+
+- **Frontend:** React 19, TypeScript, Vite 6, CSS3
+- **2D Network Visualization:** HTML5 Canvas 2D
+- **3D Introduction Viewer:** Google `<model-viewer>` (`v3.5.0`, loaded on demand from CDN for `public/neural-network.glb`)
+- **Offline Model Training & Export:** Python, PyTorch, NumPy
+- **Deployment:** GitHub Actions → GitHub Pages (`.github/workflows/deploy-pages.yml`)
+
+## Run Locally
+
+### Requirements
 
 - Node.js 20 or newer
 - pnpm 10 or newer
 
-Install dependencies and start Vite:
+### Setup and Development
 
-```powershell
+```bash
+git clone <your-repository-url>
+cd neural-lab
 pnpm install
 pnpm dev
 ```
 
-Open the local URL printed by Vite.
+Open the local URL printed by Vite (by default `http://localhost:5173`, or pass `--port 3000`).
 
-## Verify and build
+### Verification & Production Build
 
-```powershell
+```bash
 pnpm typecheck
 pnpm test:regression
 pnpm build
 pnpm preview
 ```
 
-The regression tests validate the exported artifact schema, parameter count, real sample coverage, Python reference parity fixtures, softmax stability, and occlusion-window behavior. The production build includes the browser model and sample JSON under `model/`.
+`pnpm test:regression` runs Node's built-in test runner against `tests/regression.test.mjs`, verifying the exported model schema, parameter count (`109,386`), sample coverage, PyTorch parity fixtures, softmax numerical stability, and 169-window occlusion behavior.
 
-## Deploy to GitHub Pages
+## Deployment (GitHub Pages)
 
-The Vite configuration uses `/neural-lab/` as the project-site base path. If the GitHub repository is given a different name, update `base` in `vite.config.ts` before publishing.
+The repository includes `.github/workflows/deploy-pages.yml`, which builds `dist/` with `VITE_BASE_PATH=/neural-lab/` and deploys to GitHub Pages on pushes to `main`.
 
-The workflow in `.github/workflows/deploy-pages.yml` installs from the committed pnpm lockfile, runs the production build, and deploys `dist/` through GitHub Pages. In the repository settings, set **Pages → Build and deployment → Source** to **GitHub Actions**. Pushes to `main` then deploy automatically.
+- If you rename the repository, update `VITE_BASE_PATH` in `.github/workflows/deploy-pages.yml` to match `/<repo-name>/`.
+- In GitHub repository settings, set **Pages → Build and deployment → Source** to **GitHub Actions**.
 
-## Repository layout
+## Repository Structure
 
 ```text
-src/                         React, TypeScript, inference, preprocessing, and visualizations
-public/model/                Runtime copies of the browser model and MNIST samples
-model/exported/              Canonical JSON export and parity fixtures
-model/training/              Offline training and export scripts (no datasets or checkpoints)
-tests/                       Node regression tests for the model contract
+src/
+  animation/        Forward-pass propagation timing
+  components/       Header, TabNav, RunControl, NetworkCanvas, NetworkViewer, Intro
+  explain/          169-window occlusion sensitivity analysis
+  features/         Overview, Network, Activations, Explain, Input, About tabs
+  model/            JSON artifact loader and Float32Array forward pass
+  preprocess/       Drawing raster cropping, scaling, and centering
+  state/            React Context application state
+  styles/           Design tokens and global styles
+  visualizations/   Canvas 2D layout, hit-testing, and renderer
+public/
+  model/            Runtime model JSON, sample inputs, and parity fixtures
+  neural-network.glb
+model/
+  exported/         Canonical exported JSON artifacts and parity fixtures
+  training/         Offline PyTorch training and preprocessing scripts
+  tests/            Python pipeline unit tests
+tests/              Node regression tests
 ```
 
-The raw MNIST files, Python virtual environment, training checkpoint, training log, private agent/editor configuration, internal research notes, and generated build output are intentionally excluded from the public repository.
+## Limitations
 
-## Technologies
+- **Single-digit MNIST scope:** Trained only on centered 28 × 28 white-on-black digits (`0–9`). Performance on freehand drawings depends on centering and stroke clarity.
+- **MLP vs. CNN:** Flattening pixels into a 784-element vector makes the model less shift- and rotation-invariant than a convolutional network.
+- **Sampled connections:** For legibility, the Canvas 2D view renders a deterministic subset (~620 sampled connections per layer transition) rather than all 109,248 dense edges simultaneously.
+- **Occlusion sensitivity:** Masking 4 × 4 regions measures local probability sensitivity; it does not prove semantic stroke understanding.
+- **Session-only state:** Drawn inputs and traces live in memory and reset on reload.
 
-React, TypeScript, Vite, CSS, the browser Canvas API, and PyTorch for offline model training/export.
+## Attribution & Licensing
 
-## Licensing and data provenance
-
-The application source is original project code. A license should be added for that code after confirming the intended scope. The MNIST dataset, React/Vite/TypeScript dependencies, fonts, and model artifact are third-party or derived materials with their own provenance and distribution considerations; this repository does not claim ownership of them.
+- **Project Code:** Original educational source code by Mihoub Islam, Guissous Mahfoud, and Anis Benyahiya. Add a `LICENSE` file (e.g., MIT) before publishing if you intend to open-source the code.
+- **UI Inspirations:** Button and capsule/popover surface treatments include adapted MIT-licensed CSS references from Uiverse.io (`dexter-st` and `uiverse-astronaut`, credited in the corresponding CSS files).
+- **Third-Party Materials:** React, Vite, TypeScript, PyTorch, Google `<model-viewer>`, Google Fonts (`Inter`, `IBM Plex Mono`), the MNIST dataset, and the 3D `.glb` asset remain subject to their respective licenses and provenance.

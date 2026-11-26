@@ -1,12 +1,5 @@
 /**
  * Run control — explicit inference trigger (D21).
- *
- * Disabled when:
- * - No model is loaded (model absent or error)
- * - No input is set
- * - Inference is already running
- *
- * Does NOT auto-execute on page load or when selecting a sample.
  */
 
 import { useAppState, useAppDispatch } from '../../state';
@@ -38,7 +31,6 @@ export function RunControl() {
     }
   };
 
-  // Reason why run is disabled, for the label
   const disabledReason = !modelLoaded
     ? 'No model loaded'
     : !hasInput
@@ -50,19 +42,33 @@ export function RunControl() {
   return (
     <div className="run-control">
       <button
-        className="run-button"
+        type="button"
+        className={`run-button${isRunning ? ' is-running' : ''}`}
         onClick={handleRun}
         disabled={!canRun}
         title={disabledReason ?? 'Run inference'}
       >
-        {isRunning ? 'Running…' : 'Run'}
+        <svg
+          className="run-btn-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z"
+          />
+        </svg>
+        <span>{isRunning ? 'Running…' : 'Run Inference'}</span>
       </button>
+
       {disabledReason && modelLoaded && (
         <span className="run-hint">{disabledReason}</span>
       )}
       {inference.state === 'complete' && (
         <span className="run-result">
-          Predicted: {inference.trace.predictedClass}
+          Predicted {inference.trace.predictedClass}
         </span>
       )}
       {inference.state === 'error' && (

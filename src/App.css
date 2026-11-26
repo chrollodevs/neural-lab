@@ -16,15 +16,17 @@
 
 .main-canvas {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(278px, 320px);
+  grid-template-columns: minmax(0, 1fr) minmax(284px, 328px);
   grid-template-rows: auto minmax(0, 1fr) auto;
   height: 100%;
   width: 100%;
-  padding: 12px 16px 10px;
+  padding: 6px 24px 16px;
   column-gap: 0;
-  row-gap: 8px;
+  row-gap: 10px;
   overflow: auto;
 }
+
+/* ── Canvas heading ─────────────────────────────────────────── */
 
 .canvas-heading {
   grid-column: 1;
@@ -33,78 +35,86 @@
   align-items: flex-end;
   justify-content: space-between;
   gap: 16px;
-  padding: 0 6px 7px;
-  border-bottom: 1px solid var(--border);
+  padding: 2px 4px 6px;
+}
+
+.canvas-title-block {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.canvas-kicker {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-tertiary);
 }
 
 .canvas-heading h1 {
-  margin-top: 4px;
   color: var(--text-primary);
   font-family: var(--font-ui);
-  font-size: 14px;
+  font-size: 17px;
   line-height: 1.2;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.025em;
   font-weight: 500;
   max-width: none;
 }
 
-.canvas-kicker {
-  color: var(--accent);
-  font-size: 9px;
-  letter-spacing: 0.16em;
-}
-
+/* Plain non-interactive view label — does not mimic a button */
 .canvas-meta {
-  display: flex;
-  align-items: center;
-  gap: 8px;
   color: var(--text-tertiary);
-  font-size: 9px;
-  letter-spacing: 0.14em;
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 500;
 }
 
-.meta-pulse {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--accent);
-  box-shadow: 0 0 0 3px var(--accent-muted);
-}
+/* ── Main network canvas stage ──────────────────────────────── */
 
 .canvas-stage {
   grid-column: 1;
   grid-row: 2;
   position: relative;
-  min-height: 0;
   min-height: clamp(480px, 64vh, 720px);
   overflow: hidden;
-  margin: 0 6px;
-  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
   background:
-    linear-gradient(180deg, rgba(11, 17, 20, 0.34), rgba(5, 7, 9, 0.2)),
+    radial-gradient(ellipse at 50% 45%, rgba(255, 255, 255, 0.02), transparent 70%),
     var(--bg-deep);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
+
+/* ── Integrated architecture summary (borderless, grounded) ─── */
 
 .canvas-note {
   position: absolute;
-  left: 10px;
-  bottom: 10px;
-  display: flex;
-  align-items: center;
+  left: 18px;
+  bottom: 14px;
+  display: inline-flex;
+  align-items: baseline;
   gap: 8px;
+  font-family: var(--font-ui);
+  font-size: 11px;
   color: var(--text-tertiary);
-  font-size: 9px;
-  letter-spacing: 0.12em;
+  font-variant-numeric: tabular-nums;
   pointer-events: none;
-  padding: 4px 8px;
-  background: rgba(5, 7, 9, 0.86);
-  border: 1px solid var(--border);
+}
+
+.canvas-note strong {
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.canvas-note strong.is-output {
+  color: var(--accent-amber);
 }
 
 .note-arrow {
-  color: var(--accent);
-  opacity: 0.7;
+  opacity: 0.45;
 }
+
+/* ── Stage footer ───────────────────────────────────────────── */
 
 .stage-footer {
   grid-column: 1;
@@ -113,17 +123,17 @@
   justify-content: space-between;
   align-items: center;
   gap: 16px;
-  border-top: 1px solid var(--border);
-  padding: 8px 6px 0;
+  padding: 4px 4px 0;
   z-index: 3;
 }
 
 .stage-caption {
   color: var(--text-tertiary);
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.04em;
+  font-family: var(--font-ui);
+  font-size: 11px;
 }
+
+/* ── Right context panel ────────────────────────────────────── */
 
 .environment-panel {
   grid-column: 2;
@@ -132,8 +142,11 @@
   z-index: 4;
   min-height: 0;
   overflow: auto;
-  border-left: 1px solid var(--border);
-  background: rgba(7, 10, 14, 0.92);
+  margin-left: 14px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  background: rgba(13, 13, 13, 0.94);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
 .environment-network {
@@ -155,55 +168,54 @@
 }
 
 .is-network .canvas-stage {
-  min-height: clamp(560px, 78vh, 860px);
+  min-height: clamp(540px, 75vh, 840px);
 }
 
 @media (max-width: 720px) {
   .main-canvas {
     display: flex;
     flex-direction: column;
-    padding: 12px 14px 12px;
-    gap: 12px;
+    padding: 8px 12px 14px;
+    gap: 10px;
     overflow: auto;
   }
 
-  .canvas-heading h1 { font-size: 14px; }
+  .canvas-heading h1 { font-size: 15px; }
   .canvas-meta { display: none; }
-  .canvas-note { font-size: 8px; gap: 5px; }
-  .canvas-note span:nth-of-type(even) { display: none; }
-  .stage-footer { align-items: flex-start; flex-wrap: wrap; }
+
+  .canvas-note {
+    left: 12px;
+    bottom: 10px;
+    gap: 6px;
+    font-size: 10px;
+  }
+
+  .stage-footer { align-items: center; flex-wrap: wrap; }
   .stage-caption { font-size: 10px; max-width: 220px; }
+
   .environment-panel {
     position: relative;
-    width: auto;
+    width: 100%;
     height: auto;
     max-height: none;
-    margin: 0;
+    margin: 4px 0 0;
     order: 3;
-    border-left: 0;
-    border-top: 1px solid var(--border);
   }
+
   .has-panel .canvas-stage {
     padding-right: 0;
     min-height: 320px;
     width: 100%;
     flex: none;
-    margin: 0;
   }
+
   .is-network .canvas-stage {
-    min-height: 440px;
+    min-height: 420px;
   }
+
   .canvas-heading,
-  .stage-footer,
-  .environment-panel {
+  .stage-footer {
     width: 100%;
     flex: none;
-  }
-  .has-panel .canvas-note {
-    position: relative;
-    left: auto;
-    top: auto;
-    bottom: auto;
-    margin-top: 8px;
   }
 }

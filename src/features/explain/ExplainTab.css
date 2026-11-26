@@ -1,3 +1,71 @@
+/* ── Neural network intro section ───────────────────────────── */
+
+.nn-intro-section {
+  /* no top border on the very first section */
+  border-top: none;
+  padding-top: 0;
+}
+
+.nn-viewer-wrap {
+  margin-top: 24px;
+}
+
+.nn-intro-body {
+  margin-top: 32px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 40px;
+  align-items: start;
+}
+
+.nn-intro-lead {
+  color: var(--text-secondary);
+  font-size: 13px;
+  line-height: 1.65;
+  max-width: 540px;
+  margin: 0;
+}
+
+.nn-facts {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.nn-facts li {
+  padding: 13px 0;
+  border-top: 1px solid var(--border);
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.nn-facts li:last-child {
+  border-bottom: 1px solid var(--border);
+}
+
+.nn-facts strong {
+  display: block;
+  color: var(--text-primary);
+  font-weight: 500;
+  margin-bottom: 3px;
+}
+
+.nn-facts span {
+  color: var(--text-secondary);
+}
+
+@media (max-width: 760px) {
+  .nn-intro-body {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+}
+
+/* ── end neural network intro section ───────────────────────── */
+
 .explain-page {
   height: 100vh;
   width: 100%;
@@ -6,10 +74,6 @@
   overscroll-behavior-y: contain;
   background: var(--bg-deep);
   color: var(--text-primary);
-  background-image:
-    linear-gradient(var(--grid-line) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
-  background-size: 28px 28px;
 }
 
 .explain-page-header,
@@ -19,46 +83,51 @@
   justify-content: space-between;
   gap: 24px;
   padding: 0 24px;
-  height: 44px;
-  border-bottom: 1px solid var(--border);
-  background: var(--bg);
+  height: 48px;
+  border-bottom: 1px solid var(--border-subtle);
+  background: var(--bg-deep);
 }
 
 .explain-wordmark {
   display: flex;
   align-items: baseline;
-  gap: 14px;
+  gap: 10px;
 }
 
 .explain-wordmark strong {
   font-family: var(--font-ui);
   font-size: 13px;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: -0.01em;
 }
 
 .explain-wordmark span,
 .explain-page-footer {
   color: var(--text-tertiary);
-  font-size: 9px;
-  letter-spacing: 0.12em;
+  font-family: var(--font-ui);
+  font-size: 11px;
 }
 
 .explain-back,
 .explain-return-link {
   display: inline-flex;
   align-items: center;
-  gap: 9px;
-  padding: 7px 0;
-  border: 0;
-  background: transparent;
+  gap: 7px;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border);
+  background: rgba(20, 20, 20, 0.85);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
   color: var(--text-secondary);
-  font: inherit;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-family: var(--font-ui);
+  font-size: 12px;
+  font-weight: 500;
   cursor: pointer;
+  transition:
+    color 160ms var(--ease-out),
+    border-color 160ms var(--ease-out),
+    background-color 160ms var(--ease-out),
+    transform 120ms var(--ease-out);
 }
 
 .explain-back:hover,
@@ -66,6 +135,13 @@
 .explain-return-link:hover,
 .explain-return-link:focus-visible {
   color: var(--text-primary);
+  border-color: var(--border-strong);
+  background: rgba(28, 28, 28, 0.92);
+}
+
+.explain-back:active,
+.explain-return-link:active {
+  transform: scale(0.97);
 }
 
 .explain-page-body {
@@ -82,9 +158,24 @@
 .explain-eyebrow,
 .explain-label,
 .visual-caption {
-  color: var(--accent);
-  font-size: 9px;
-  letter-spacing: 0.14em;
+  color: var(--text-tertiary);
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.explain-state-title {
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.layer-zeros {
+  color: var(--text-tertiary);
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
 }
 
 .explain-hero h1 {
@@ -111,7 +202,7 @@
 }
 
 .explain-state .mono {
-  color: var(--accent);
+  color: var(--text-secondary);
   font-size: 10px;
   letter-spacing: 0.12em;
 }
@@ -181,8 +272,9 @@
   aspect-ratio: 1;
   gap: 1px;
   padding: 8px;
-  background: #05070a;
-  border: 1px solid var(--border);
+  background: #050505;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
 }
 
 .large-digit-grid {
@@ -191,7 +283,7 @@
 
 .digit-grid i {
   min-width: 0;
-  background: var(--accent-bright);
+  background: #e0e0e0;
 }
 
 .fact-list {
@@ -211,16 +303,17 @@
 .fact-list dt,
 .layer-stats dt {
   color: var(--text-tertiary);
-  font-family: var(--font-mono);
-  font-size: 10px;
+  font-family: var(--font-ui);
+  font-size: 11.5px;
 }
 
 .fact-list dd,
 .layer-stats dd {
   margin: 0;
   color: var(--text-secondary);
-  font-family: var(--font-mono);
-  font-size: 10px;
+  font-family: var(--font-ui);
+  font-size: 11.5px;
+  font-variant-numeric: tabular-nums;
   text-align: right;
 }
 
@@ -248,7 +341,7 @@
 
 .layer-readout-heading > span:last-child {
   color: var(--text-secondary);
-  font-size: 9px;
+  font-size: 11px;
 }
 
 .activation-matrix {
@@ -257,12 +350,13 @@
   gap: 2px;
   padding: 8px;
   border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
   background: var(--bg-elevated);
 }
 
 .activation-matrix i {
   aspect-ratio: 1;
-  background: var(--accent-bright);
+  background: #c8c8c8;
 }
 
 .layer-stats {
@@ -288,9 +382,10 @@
 }
 
 .prediction-callout strong {
-  font-family: var(--font-mono);
+  font-family: var(--font-ui);
   font-size: 36px;
   font-weight: 500;
+  font-variant-numeric: tabular-nums;
   line-height: 0.9;
   color: var(--accent-amber);
 }
@@ -306,14 +401,15 @@
 }
 
 .margin-callout strong {
-  font-family: var(--font-mono);
+  font-family: var(--font-ui);
   font-size: 18px;
-  font-weight: 400;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
 }
 
 .margin-callout span:last-child {
   color: var(--text-tertiary);
-  font-size: 10px;
+  font-size: 11px;
 }
 
 .probability-table {
@@ -339,13 +435,16 @@
 
 .probability-track {
   height: 3px;
+  border-radius: 999px;
   background: var(--bg-surface);
+  overflow: hidden;
 }
 
 .probability-track i {
   display: block;
   height: 100%;
-  background: var(--accent);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.18);
 }
 
 .probability-row.is-predicted .probability-track i {
@@ -363,11 +462,11 @@
 }
 
 .influence-grid i.supports {
-  background: #cfa152;
+  background: #c9933a;
 }
 
 .influence-grid i.opposes {
-  background: #8a9baa;
+  background: #585858;
 }
 
 .influence-legend {
@@ -375,7 +474,7 @@
   flex-wrap: wrap;
   gap: 18px;
   color: var(--text-tertiary);
-  font-size: 9px;
+  font-size: 11px;
 }
 
 .legend-swatch {
@@ -383,11 +482,11 @@
   width: 7px;
   height: 7px;
   margin-right: 6px;
-  background: #cfa152;
+  background: #c9933a;
 }
 
 .legend-swatch.opposes {
-  background: #8a9baa;
+  background: #585858;
 }
 
 .influence-readout {

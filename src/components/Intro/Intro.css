@@ -1,0 +1,150 @@
+/*
+ * Intro overlay — cinematic first-visit sequence.
+ *
+ * Layers:
+ *   .intro              — the full-screen black shutter, slides upward at the end
+ *   .intro__wordmark    — centered wordmark block; fades in then fades out + drifts
+ *   .intro__hint        — faint "click to skip" text
+ *
+ * Phase classes control CSS transitions:
+ *   --wordmark-in   → wordmark animates to full opacity (initial)
+ *   --hold          → wordmark is fully visible, overlay static
+ *   --wordmark-out  → wordmark fades out + drifts up
+ *   --overlay-out   → entire overlay slides upward off screen
+ *
+ * All transitions use hardware-accelerated properties only (opacity, transform).
+ * No layout-triggering properties are animated.
+ */
+
+.intro {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: #080808;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+
+  /* Overlay slide — only triggers in --overlay-out phase */
+  transform: translateY(0);
+  transition: transform 0.76s cubic-bezier(0.76, 0, 0.24, 1);
+
+  /* Prevent text selection during tap-to-dismiss */
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: default;
+}
+
+.intro--overlay-out {
+  transform: translateY(-100%);
+}
+
+/* ── Wordmark block ── */
+
+.intro__wordmark {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+
+  opacity: 0;
+  transform: translateY(0px);
+  transition:
+    opacity 0.22s ease,
+    transform 0.22s ease;
+}
+
+/* Phase: wordmark fading in */
+.intro--wordmark-in .intro__wordmark {
+  opacity: 0;
+  transform: translateY(0px);
+}
+
+/* Phase: fully visible */
+.intro--hold .intro__wordmark,
+.intro--wordmark-out .intro__wordmark {
+  /* Apply visible state immediately when phase changes to hold */
+  opacity: 1;
+  transform: translateY(0px);
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+
+/* Trigger the exit when phase becomes --wordmark-out */
+.intro--wordmark-out .intro__wordmark {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+/* Keep wordmark invisible during overlay slide */
+.intro--overlay-out .intro__wordmark {
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: none;
+}
+
+/* ── Name ── */
+
+.intro__name {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: clamp(28px, 5vw, 44px);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: #efefef;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+/* ── Sub-label ── */
+
+.intro__sub {
+  font-family: 'IBM Plex Mono', 'SF Mono', 'Menlo', 'Consolas', monospace;
+  font-size: 9px;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #4f4f4f;
+  line-height: 1;
+}
+
+/* ── Skip hint ── */
+
+.intro__hint {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #333333;
+
+  opacity: 0;
+  transition: opacity 0.3s ease 0.4s; /* delayed fade-in */
+}
+
+.intro--hold .intro__hint,
+.intro--wordmark-out .intro__hint {
+  opacity: 1;
+}
+
+.intro--overlay-out .intro__hint {
+  opacity: 0;
+  transition: none;
+}
+
+/* ── Thin top-edge highlight on the overlay (depth cue) ── */
+.intro::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.06);
+  pointer-events: none;
+}

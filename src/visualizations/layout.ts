@@ -2,7 +2,7 @@
  * Network layout — deterministic organic positions (D18, D14).
  *
  * Input: 28×28 pixel grid with proper spacing.
- * Hidden: curved columns with organic jitter for biological feel.
+ * Hidden: clean vertical column with minimal jitter for legible connections.
  * Output: wide-spaced column with digit labels.
  *
  * Layout is computed from LayerInfo[], not hardcoded.
@@ -60,14 +60,14 @@ export function computeLayout(
   }
 
   const rand = seededRandom(31415);
-  const pad = { top: 48, bottom: 36, left: 40, right: 72 };
+  const pad = { top: 56, bottom: 44, left: 40, right: 124 };
   const usableW = Math.max(canvasWidth - pad.left - pad.right, 1);
   const usableH = Math.max(canvasHeight - pad.top - pad.bottom, 1);
   const layerCount = layers.length;
 
-  // Horizontal centers — input layer needs more width for the 28×28 grid.
-  // When a single layer is supplied, keep the layout centered and avoid dividing by zero.
-  const inputShare = 0.32;
+  // Horizontal centers — input layer gets a narrower share now.
+  // Hidden layers get equal shares of the remaining space.
+  const inputShare = 0.26;
   const remainShare = layerCount > 1 ? (1 - inputShare) / (layerCount - 1) : 0;
   const layerXFractions = layers.map((_, i) => {
     if (layerCount === 1) return 0.5;
@@ -87,14 +87,14 @@ export function computeLayout(
     let cellSize: number | undefined;
 
     if (li === 0 && layer.units === 784) {
-      // ── Input: 28×28 pixel grid ──
+      // ── Input: 28×28 pixel grid — slightly reduced footprint ──
       const gridN = 28;
-      const maxGridSize = Math.min(usableH * 0.88, usableW * inputShare * 0.92);
-      cellSize = Math.floor(maxGridSize / gridN);
-      const gap = Math.max(0, Math.floor(cellSize * 0.06));
+      const maxGridSize = Math.min(usableH * 0.80, usableW * inputShare * 0.95);
+      cellSize = Math.max(4, Math.floor(maxGridSize / gridN));
+      const gap = 0; // No gap — tighter grid looks cleaner
       const stride = cellSize + gap;
-      const gridW = gridN * stride - gap;
-      const gridH = gridN * stride - gap;
+      const gridW = gridN * stride;
+      const gridH = gridN * stride;
       const startX = centerX - gridW / 2;
       const startY = pad.top + (usableH - gridH) / 2;
 
@@ -108,35 +108,39 @@ export function computeLayout(
         }
       }
     } else if (layer.units <= 12) {
-      // ── Output layer: wide spacing, centered ──
-      const spacing = Math.min(usableH / (layer.units + 2), 48);
+      // ── Output layer: wide spacing, centered, NO jitter for clean label rendering ──
+      const spacing = Math.min(usableH / (layer.units + 1), 46);
       const colH = spacing * (layer.units - 1);
       const startY = pad.top + (usableH - colH) / 2;
 
       for (let ni = 0; ni < layer.units; ni++) {
-        const jx = (rand() - 0.5) * 4;
-        const jy = (rand() - 0.5) * 2;
-        const y = startY + ni * spacing + jy;
-        nodes.push({ x: centerX + jx, y, layerIndex: li, nodeIndex: ni });
+        const y = startY + ni * spacing;
+        nodes.push({ x: centerX, y, layerIndex: li, nodeIndex: ni });
         if (y < topY) topY = y;
         if (y > bottomY) bottomY = y;
       }
+      // Consume rand calls to keep sequence consistent
+      for (let ni = 0; ni < layer.units; ni++) { rand(); rand(); }
     } else {
-      // ── Hidden layers: organic curved column ──
-      const maxSpacing = layer.units > 80 ? 5.6 : 8.2;
+      // ── Hidden layers: clean column with very subtle jitter only on X ──
+      // Keeping nodes in a tight vertical column makes connections much cleaner.
+      const maxSpacing = layer.units > 80 ? 5.2 : 7.8;
       const spacing = Math.min(usableH / (layer.units + 1.4), maxSpacing);
       const colH = spacing * (layer.units - 1);
       const startY = pad.top + (usableH - colH) / 2;
 
-      // Gentle sine curve for organic feel — amplitude scales with layer size
-      const curveAmp = Math.min(18, usableW * 0.014);
+      // Very gentle sine curve — just enough to signal it's a curved column,
+      // not so much that it creates visual chaos.
+      const curveAmp = Math.min(10, usableW * 0.008);
 
       for (let ni = 0; ni < layer.units; ni++) {
         const t = layer.units > 1 ? ni / (layer.units - 1) : 0.5;
         const curveX = Math.sin(t * Math.PI) * curveAmp;
-        const jx = (rand() - 0.5) * 3;
-        const jy = (rand() - 0.5) * 1.5;
-        const y = startY + ni * spacing + jy;
+        // Minimal X jitter only — Y jitter creates uneven vertical spacing
+        // that makes straight connections look messier.
+        const jx = (rand() - 0.5) * 2;
+        rand(); // consume Y slot for PRNG consistency
+        const y = startY + ni * spacing;
         nodes.push({ x: centerX + curveX + jx, y, layerIndex: li, nodeIndex: ni });
         if (y < topY) topY = y;
         if (y > bottomY) bottomY = y;

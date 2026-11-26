@@ -1,74 +1,90 @@
 .activations-tab {
-  padding: 14px 16px;
+  padding: 16px 18px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 16px;
   flex: 1;
 }
 
 .empty-message {
   color: var(--text-secondary);
-  padding: 32px 0;
+  padding: 28px 0;
   text-align: left;
-  font-size: 11px;
+  font-family: var(--font-ui);
+  font-size: 12px;
+  line-height: 1.55;
 }
 
 .activation-section {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  padding-bottom: 14px;
+  gap: 10px;
+  padding-bottom: 16px;
   border-bottom: 1px solid var(--border);
+}
+
+.activation-section:last-child {
+  border-bottom: none;
+}
+
+.activation-section .section-label {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-tertiary);
+  text-transform: capitalize;
 }
 
 .activation-grid {
   display: grid;
   grid-template-columns: repeat(28, 1fr);
   gap: 1px;
-  max-width: 196px;
-  line-height: 1;
-  font-size: 6px;
+  width: 184px;
+  aspect-ratio: 1;
   background: var(--bg-deep);
   border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
   padding: 4px;
 }
 
 .activation-cell {
-  text-align: center;
-  color: var(--accent-bright);
+  background: var(--text-primary);
 }
 
 .activation-values {
   display: flex;
   flex-wrap: wrap;
-  gap: 3px;
+  gap: 4px;
 }
 
 .activation-value {
-  font-size: 9px;
+  font-size: 9.5px;
   color: var(--text-secondary);
-  padding: 2px 4px;
+  padding: 2px 5px;
   background: var(--bg-elevated);
   border: 1px solid var(--border);
+  border-radius: 4px;
 }
 
 .probability-list {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
   max-width: 360px;
 }
 
 .prob-row {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   font-size: 11px;
+  color: var(--text-secondary);
 }
 
 .prob-row.predicted {
-  color: var(--accent-amber);
+  color: var(--accent-amber-bright);
+  font-weight: 500;
 }
 
 .prob-digit {
@@ -79,13 +95,15 @@
 .prob-bar-bg {
   flex: 1;
   height: 3px;
+  border-radius: 999px;
   background: var(--bg-surface);
   overflow: hidden;
 }
 
 .prob-bar {
   height: 100%;
-  background: var(--accent-muted);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.22);
 }
 
 .prob-row.predicted .prob-bar {
@@ -93,7 +111,7 @@
 }
 
 .prob-value {
-  width: 48px;
+  width: 46px;
   text-align: right;
   font-variant-numeric: tabular-nums;
 }

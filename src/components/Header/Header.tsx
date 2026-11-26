@@ -1,38 +1,60 @@
 /**
- * App header — compact wordmark and model status indicator (D6).
- * Not a marketing hero. Minimal chrome.
+ * App header — unified top bar combining brand identity, capsule navigation,
+ * and restrained model status.
  */
 
 import { useAppState } from '../../state';
+import { TabNav } from '../TabNav/TabNav';
 import './Header.css';
 
 export function Header() {
   const { modelStatus } = useAppState();
 
-  const statusText = (() => {
+  const statusInfo = (() => {
     switch (modelStatus.state) {
       case 'absent':
-        return 'No model loaded';
+        return { label: 'No model', detail: null };
       case 'loading':
-        return 'Loading model…';
+        return { label: 'Loading…', detail: null };
       case 'loaded':
-        return `Model ready · ${modelStatus.model.meta.totalParameters.toLocaleString()} parameters`;
+        return {
+          label: 'Model ready',
+          detail: `${modelStatus.model.meta.totalParameters.toLocaleString()} params`,
+        };
       case 'error':
-        return `Model error: ${modelStatus.error}`;
+        return { label: 'Model error', detail: modelStatus.error };
     }
   })();
 
-  const statusClass = modelStatus.state === 'loaded' ? 'ready' : modelStatus.state === 'error' ? 'error' : 'inactive';
+  const statusClass =
+    modelStatus.state === 'loaded'
+      ? 'ready'
+      : modelStatus.state === 'error'
+        ? 'error'
+        : 'inactive';
+
+  const ariaText = statusInfo.detail
+    ? `${statusInfo.label} · ${statusInfo.detail}`
+    : statusInfo.label;
 
   return (
     <header className="app-header">
       <div className="header-wordmark">
         <span className="header-title">Neural Lab</span>
-        <span className="header-subtitle">MNIST MLP Explorer</span>
       </div>
-      <div className={`header-status ${statusClass}`} aria-label={statusText} title={statusText}>
-        <span className="status-dot" />
-        <span className="status-text mono">{statusText}</span>
+
+      <div className="header-nav">
+        <TabNav />
+      </div>
+
+      <div className={`header-status ${statusClass}`} aria-label={ariaText} title={ariaText}>
+        <span className="status-label">{statusInfo.label}</span>
+        {statusInfo.detail && (
+          <>
+            <span className="status-sep" aria-hidden="true">·</span>
+            <span className="status-detail">{statusInfo.detail}</span>
+          </>
+        )}
       </div>
     </header>
   );

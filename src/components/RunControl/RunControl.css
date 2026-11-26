@@ -1,68 +1,118 @@
+/* From Uiverse.io by dexter-st - https://uiverse.io/dexter-st/young-newt-20
+   MIT License, Copyright (c) dexter-st
+   Simplified & adapted for Neural Lab: tactile layered surface, restrained inset lighting. */
+
 .run-control {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   padding: 0;
   flex-shrink: 0;
 }
 
 .run-button {
-  background: transparent;
-  color: var(--accent-bright);
-  border: 1px solid var(--accent);
-  border-radius: 0;
-  font-family: var(--font-mono);
-  font-size: 10px;
+  position: relative;
+  user-select: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 0 16px 0 13px;
+  height: 34px;
+  font-family: var(--font-ui);
+  font-size: 12px;
   font-weight: 500;
-  padding: 7px 16px;
+  letter-spacing: -0.005em;
+  color: var(--text-primary);
+  background-color: #161616;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: var(--radius-pill);
   cursor: pointer;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    inset 0 2px 4px rgba(255, 255, 255, 0.08),
+    0 2px 6px rgba(0, 0, 0, 0.5),
+    0 8px 18px -8px rgba(0, 0, 0, 0.75);
+
   transition:
-    background-color 160ms var(--ease-out),
-    color 160ms var(--ease-out),
-    transform 120ms var(--ease-out);
-  min-height: 28px;
+    box-shadow 220ms var(--ease-out),
+    border-color 220ms var(--ease-out),
+    background-color 220ms var(--ease-out),
+    transform 120ms var(--ease-out),
+    opacity 180ms var(--ease-out);
+}
+
+.run-btn-svg {
+  width: 12px;
+  height: 12px;
+  fill: none;
+  stroke: var(--text-secondary);
+  stroke-width: 1.9;
+  transition: stroke 200ms var(--ease-out), transform 200ms var(--ease-out);
 }
 
 .run-button:hover:not(:disabled) {
-  background: var(--accent-muted);
-  color: var(--text-primary);
+  background-color: #1e1e1e;
+  border-color: rgba(255, 255, 255, 0.26);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.28),
+    inset 0 3px 6px rgba(255, 255, 255, 0.10),
+    0 4px 10px rgba(0, 0, 0, 0.6),
+    0 12px 22px -8px rgba(0, 0, 0, 0.85);
 }
 
-.run-button:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-  color: var(--text-tertiary);
-  border-color: var(--border-strong);
-  background: transparent;
-}
-
-.run-button:focus-visible {
-  outline: 1px solid var(--accent);
-  outline-offset: 3px;
+.run-button:hover:not(:disabled) .run-btn-svg {
+  stroke: var(--accent-bright);
+  transform: translateX(1px);
 }
 
 .run-button:active:not(:disabled) {
   transform: scale(0.97);
+  background-color: #222222;
+  box-shadow:
+    inset 0 2px 4px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.run-button:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  background-color: #101010;
+  color: var(--text-tertiary);
+  border-color: var(--border);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.run-button:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 2px var(--bg-deep),
+    0 0 0 3.5px rgba(255, 255, 255, 0.45);
 }
 
 .run-hint {
   color: var(--text-tertiary);
-  font-family: var(--font-mono);
-  font-size: 9px;
-  letter-spacing: 0.06em;
+  font-family: var(--font-ui);
+  font-size: 11px;
 }
 
 .run-result {
-  color: var(--accent-amber);
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.06em;
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  background: rgba(201, 147, 58, 0.10);
+  border: 1px solid rgba(201, 147, 58, 0.28);
+  color: var(--accent-amber-bright);
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
 }
 
 .run-error {
   color: var(--danger);
-  font-family: var(--font-mono);
-  font-size: 10px;
+  font-family: var(--font-ui);
+  font-size: 11px;
 }

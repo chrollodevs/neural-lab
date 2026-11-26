@@ -1,7 +1,6 @@
 /**
- * Tab navigation — compact horizontal tabs under the header (D3).
+ * Tab navigation — floating capsule tabs integrated into the header.
  * Six tabs: Overview · Network · Activations · Explain · Input · About
- * No motion on tab switch (DESIGN_DIRECTION.md — high-frequency interaction).
  */
 
 import { useAppState, useAppDispatch, type TabId } from '../../state';
@@ -21,7 +20,7 @@ export function TabNav() {
   const dispatch = useAppDispatch();
 
   return (
-    <nav className="tab-nav" role="tablist">
+    <nav className="tab-nav" role="tablist" aria-label="Workspace sections">
       {TABS.map(({ id, label }) => (
         <button
           key={id}
